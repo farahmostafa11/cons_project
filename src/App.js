@@ -1,6 +1,7 @@
 import CinemaRoom from "./component/cinemaRoom/CinemaRoom"
 import React from 'react';
 import {BrowserRouter as Router, Routes , Route} from "react-router-dom";
+//import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 function App() {
   return (

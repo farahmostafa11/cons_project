@@ -9,12 +9,13 @@ html {
 
 .plane {
   margin: 20px auto;
-  max-width: 300px;
+  max-width: 95%;
 }
 
 .cockpit {
   height: 250px;
   position: relative;
+  width: 100%;
   overflow: hidden;
   text-align: center;
   border-bottom: 5px solid #d8d8d8;
@@ -44,11 +45,11 @@ html {
     content: "EXIT";
     font-size: 14px;
     line-height: 18px;
-    padding: 0px 2px;
-    font-family: "Arial Narrow", Arial, sans-serif;
+    padding: 3px 14px;
+    font-weight: bold;
     display: block;
     position: absolute;
-    background: green;
+    background: #117A65;
     color: white;
     top: 50%;
     transform: translate(0, -50%);
@@ -72,26 +73,23 @@ ol {
   margin: 0;
 }
 
-.row {
-}
-
 .seats {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .seat {
-  display: flex;
-  flex: 0 0 14.28571428571429%;
+  height: 37px;
+  width: 40px;
   padding: 5px;
   position: relative;
-  &:nth-child(3) {
-    margin-right: 14.28571428571429%;
+  &:nth-child(4) {
+    margin-right: 30px;
   }
-  &:nth-child(6) {
-    margin-right: 14.28571428571429%;
+  &:nth-child(16) {
+    margin-right: 30px;
   }
   input[type="checkbox"] {
     position: absolute;
@@ -108,11 +106,9 @@ ol {
   }
   input[type="checkbox"]:disabled {
     + label {
-      background: #dddddd;
-      text-indent: -9999px;
       overflow: hidden;
       &:after {
-        content: "X";
+        content: "";
         text-indent: 0;
         position: absolute;
         top: 4px;
@@ -134,10 +130,10 @@ ol {
     font-weight: bold;
     line-height: 1.5rem;
     padding: 4px 0;
-    background: #f42536;
     border-radius: 5px;
     animation-duration: 300ms;
     animation-fill-mode: both;
+
 
     &:before {
       content: "";
@@ -154,6 +150,13 @@ ol {
       cursor: pointer;
       box-shadow: 0 0 0px 2px #5c6aff;
     }
+    
+  }
+  .empty{
+    background: #2980B9;
+  }
+  .reserved{
+    background: #f42536;
   }
 }
 
