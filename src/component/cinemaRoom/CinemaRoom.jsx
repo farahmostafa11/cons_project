@@ -9,9 +9,6 @@ export default function CinemaRoom(props){
   const [selectedChairs,setSelectedChairs]=useState([]);
   const [isClicked,setClicked] = useState(false);
 
-  function addToSelectedChairs(id){
-    
-  }
 
   function toggleChair(id,chair_state){
     

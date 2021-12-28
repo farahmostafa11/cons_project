@@ -375,5 +375,22 @@
                 }
             ]
         }
+    ],
+    "movies":[
+        {
+            "poster":"https://picsum.photos/300/200?random=1",
+            "movieName":"spider man",
+            "rating":4.1
+        },
+        {
+            "poster":"https://picsum.photos/300/200?random=1",
+            "movieName":"spider man",
+            "rating":4.1
+        },
+        {
+            "poster":"https://picsum.photos/300/200?random=1",
+            "movieName":"spider man",
+            "rating":4.1
+        }
     ]
 }
