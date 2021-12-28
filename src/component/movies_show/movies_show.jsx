@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import './movies_show.scss';
 import {Link} from "react-router-dom";
-export default function MoviesSow(props){
+export default function MoviesShow(props){
 
 
     const [movies, setMovies] = useState([]); 
@@ -42,8 +42,11 @@ export default function MoviesSow(props){
   }
 
   */
+  const navStyle={
+    color:'white'
+  };
     useEffect(async()=>{
-    fetch('http://localhost:3002/current-movies')
+    fetch('http://localhost:3002/movies')
     .then(
         res=>{return res.json()}
     )
@@ -56,7 +59,8 @@ export default function MoviesSow(props){
 
     return(
         <>
-        {movies &&movies.map(movie=>(
+
+        {movies && movies.map(movie=>(
             <div className='whole_movie_details'>
             <div className='poster'>
                 <img src={movie.poster}/>
@@ -64,6 +68,10 @@ export default function MoviesSow(props){
             <div className='movie_details'>
                 <h4>{movie.movieName}</h4>
                 <p>rating {movie.rating}</p>
+                <p>actor name:{movie.actor_name}</p>
+            </div>
+            <div>
+              <Link style={navStyle} to="/RoomReservation"><button>buy a ticket</button></Link>
             </div>
         </div>
         ))

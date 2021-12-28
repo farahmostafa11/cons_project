@@ -380,17 +380,20 @@
         {
             "poster":"https://picsum.photos/300/200?random=1",
             "movieName":"spider man",
-            "rating":4.1
+            "rating":4.1,
+            "actor_name":"dfdfdg"
         },
         {
             "poster":"https://picsum.photos/300/200?random=1",
             "movieName":"spider man",
-            "rating":4.1
+            "rating":4.1,
+            "actor_name":"dfdfdg"
         },
         {
             "poster":"https://picsum.photos/300/200?random=1",
             "movieName":"spider man",
-            "rating":4.1
+            "rating":4.1,
+            "actor_name":"dfdfdg"
         }
     ]
 }

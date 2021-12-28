@@ -49,6 +49,7 @@ export default function CinemaRoom(props){
   },[])
 
     return(
+        <>
         <div className="plane">
           <div className="exit exit--front fuselage">
 
@@ -72,6 +73,10 @@ export default function CinemaRoom(props){
           <div className="exit exit--back fuselage">
           </div>
         </div>
+        <div className='confirm_rservation'>
+          
+        </div>
+        </>
     )
 
 }
