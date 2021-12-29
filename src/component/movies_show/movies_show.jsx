@@ -1,18 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import './movies_show.scss';
 import {Link} from "react-router-dom";
+
 export default function MoviesShow(props){
 
 
-    const [movies, setMovies] = useState([]); 
+  const [movies, setMovies] = useState([]); 
   //console.log(chairs)
   /*
-  const [idToreserve,setChairID]=useState();
-  const [selectedChairs,setSelectedChairs]=useState([]);
-  const [isClicked,setClicked] = useState(false);
-
-  function addToSelectedChairs(id){
-    
   }
 
   function toggleChair(id,chair_state){
@@ -70,8 +65,8 @@ export default function MoviesShow(props){
                 <p>rating {movie.rating}</p>
                 <p>actor name:{movie.actor_name}</p>
             </div>
-            <div>
-              <Link style={navStyle} to="/RoomReservation"><button>buy a ticket</button></Link>
+            <div className='reservation'>
+              <Link style={navStyle} to={`/RoomReservation/${movie.id}`}><button>buy a ticket</button></Link>
             </div>
         </div>
         ))

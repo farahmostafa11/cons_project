@@ -5,12 +5,13 @@ import {BrowserRouter as Router, Routes , Route} from "react-router-dom";
 //import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 function App() {
+
   return (
     <Router>
       <div className='App'>
         <Routes>
-        <Route exact path='/' element={< MoviesShow />}></Route>
-        <Route exact path='/RoomReservation' element={< CinemaRoom />}></Route>
+        <Route exact path='/' element={<MoviesShow/>}/>
+        <Route path='/RoomReservation/:id' element={<CinemaRoom/>}/>
         </Routes>
       </div>
     </Router>

@@ -3,37 +3,57 @@ import './CinemaRoom.scss';
 import {Link} from "react-router-dom";
 export default function CinemaRoom(props){
 
-  //console.log(chairs)
+  const path = window.location.pathname;
+  console.log("path",path);
+    const index = path.split('/');
+    var room_id = index[2];
+    if(room_id==undefined){ 
+      room_id='null';
+    }
+    console.log("room_id",room_id);
+
   const [rows, setRows] = useState([]); 
   const [idToreserve,setChairID]=useState();
   const [selectedChairs,setSelectedChairs]=useState([]);
   const [isClicked,setClicked] = useState(false);
+  const [isNotEmpty,setEmptyCheck] = useState(true);
+  const navStyle={
+    color:'white'
+  };
+  function reservationButtonReveal(){
+    if(selectedChairs.length !==0){
+      setEmptyCheck(false);
+    }
+    else{
+      setEmptyCheck(true);
+    }
+  }
 
 
   function toggleChair(id,chair_state){
-    
-    
-    if(isClicked==false){
-      if(chair_state=="empty"){
+    console.log("current_iddd",id)
+    if(chair_state==="empty"){
         console.log("da5al")
-        setClicked(!isClicked);
-        var index = selectedChairs.indexOf(id); // Let's say it's Bob.
-        console.log(index);
-        if(index==-1){
+        var index = selectedChairs.indexOf(id); 
+        console.log(isClicked);
+        if(index===-1){
+          setEmptyCheck(false);
+          setSelectedChairs(selectedChairs => selectedChairs.concat(id));
+          //console.log("7agaz");
           setChairID(id);
-          console.log(idToreserve);
-          setSelectedChairs(selectedChairs => [...selectedChairs, id]);
-          console.log(selectedChairs);
         }
         else{
           selectedChairs.splice(index, 1);
+          setClicked(!isClicked);
           console.log(selectedChairs);
+          reservationButtonReveal();
         }
-      }
     }
-    else{
-      setClicked(!isClicked);
-    }
+    console.log(selectedChairs);
+    //
+  }
+  function sendTickets(){
+    console.log(selectedChairs);
   }
 
   useEffect(async()=>{
@@ -44,9 +64,10 @@ export default function CinemaRoom(props){
     .then(
       data=>{console.log(data);
       setRows(data);
+
     }
     )
-  },[])
+  },[isNotEmpty])
 
     return(
         <>
@@ -59,9 +80,9 @@ export default function CinemaRoom(props){
             <li className="row" className={row.row_num}>
               <ol className="seats" type="A">
                 {row.chairs && row.chairs.map(chair=>(
-                <li className="seat"  onClick={() =>{ toggleChair(chair.ID,chair.is_reserved);}}>
-                  <input type="checkbox" id={chair.ID} disabled={chair.Reserver_ID!==-1?true:false} />
-                  <label className={chair.is_reserved} htmlFor={chair.ID}>{chair.ID}</label>
+                <li className="seat" >
+                  <input onClick={() =>{ toggleChair(chair.ID,chair.is_reserved)}} type="checkbox" id={chair.ID} disabled={chair.Reserver_ID!==-1?true:false} />
+                  <label className={chair.is_reserved} htmlFor={chair.ID} >{chair.ID}</label>
                 </li>
                 )
                 )}
@@ -73,8 +94,8 @@ export default function CinemaRoom(props){
           <div className="exit exit--back fuselage">
           </div>
         </div>
-        <div className='confirm_rservation'>
-          
+        <div className='confirm_reservation'>
+          {!isNotEmpty && <button className='confirmation_button' onClick={sendTickets}>confirm reservation</button>}
         </div>
         </>
     )
