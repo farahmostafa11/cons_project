@@ -1,7 +1,7 @@
 {
-  "name": "node-farm",
+  "name": "cinemata",
   "version": "1.0.0",
-  "description": "Building Cinema DATABASE",
+  "description": "Building Cinemata DATABASE",
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",

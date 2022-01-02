@@ -13,6 +13,8 @@ mongoose.connect(DB,{
   console.log(con.connections);
   console.log('DB connection successful');
 });
+//connect fn will return method con
+//so we use returned con to print
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
