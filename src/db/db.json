@@ -198,25 +198,143 @@
     ],
     "movies":[
         {
-            "poster":"https://picsum.photos/300/200?random=1",
-            "movieName":"spider man",
-            "rating":4.1,
-            "actor_name":"dfdfdg",
-            "id":0
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008821.jpg",
+            "movieName":"EL KAHEN",
+            "Date": "30 December 2021",
+            "id":0,
+            "slideShow":" https://assets.voxcinemas.com/content/Al_Kahen-EN_1640761071.jpg",
+            "startTime": [ 
+                "13:00", 
+                "18:00" ,   
+                "00:00"  
+              ] ,
+            "endTime":[ 
+                "15:00" ,   
+                "20:00" ,   
+                "2:00"  
+            ]
         },
         {
-            "poster":"https://picsum.photos/300/200?random=1",
-            "movieName":"spider man",
-            "rating":4.1,
-            "actor_name":"dfdfdg",
-            "id":1
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008811.jpg",
+            "movieName":"Operation Fortune",
+            "Date": "20 January 2022",
+            "id":1,
+            "slideShow":"https://assets.voxcinemas.com/content/SPNWH---ENG-_1639640704.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
         },
         {
-            "poster":"https://picsum.photos/300/200?random=1",
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
+            "movieName":"SPIDER MAN",
+            "Date": "30 December 2021",
+            "id":2,
+            "slideShow":"https://assets.voxcinemas.com/content/SING-ENG-2-_1640761142.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
+        },
+        {
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
+            "movieName":"spider man",
+            "Date": "30 December 2021",
+            "id":3,
+            "slideShow":"https://assets.voxcinemas.com/content/ENCANTO-ENG_1637838184.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
+        },
+        {
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
             "movieName":"spider man",
             "rating":4.1,
-            "actor_name":"dfdfdg",
-            "id":2
+            "Date": "30 December 2021",
+            "id":4,
+            "slideShow":" https://assets.voxcinemas.com/content/Al_Kahen-EN_1640761071.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
+        },
+        {
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
+            "movieName":"spider man",
+            "rating":4.1,
+            "Date": "30 December 2021",
+            "id":5,
+            "slideShow":"https://assets.voxcinemas.com/content/The_Kings_man-EN_1640760924.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+                "15:00" ,   
+                "20:00" ,   
+                "2:00"  
+          ]
+        },
+        {
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
+            "movieName":"spider man",
+            "rating":4.1,
+            "Date": "30 December 2021",
+            "id":6,
+            "slideShow":" https://assets.voxcinemas.com/content/Al_Kahen-EN_1640761071.jpg",
+            "startTime": [ 
+                "13:00", 
+                "18:00" ,   
+                "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
+        },{
+            "poster":"https://assets.voxcinemas.com/posters/P_HO00008731.jpg",
+            "movieName":"spider man",
+            "rating":4.1,
+            "Date": "30 December 2021",
+            "id":7,
+            "slideShow":"https://assets.voxcinemas.com/content/The_Kings_man-EN_1640760924.jpg",
+            "startTime": [ 
+              "13:00", 
+              "18:00" ,   
+              "00:00"  
+            ] ,
+          "endTime":[ 
+              "15:00" ,   
+              "20:00" ,   
+              "2:00"  
+          ]
         }
     ]
 }

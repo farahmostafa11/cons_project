@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import './CinemaRoom.scss';
 import {Link} from "react-router-dom";
+import GetRoomReservations from "../../services/screenRoom.js"
 export default function CinemaRoom(props){
 
   const path = window.location.pathname;
@@ -68,6 +69,14 @@ export default function CinemaRoom(props){
     }
     )
   },[isNotEmpty])
+  /*useEffect(async()=>{
+    GetRoomReservations(room_id).then(response=>{
+      if(response.data.boolean === 1){
+        setRows(response.data);
+      }
+  })
+  },[isNotEmpty])*/
+
 
     return(
         <>
