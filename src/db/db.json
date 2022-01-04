@@ -1,4 +1,14 @@
 {
+    "users":[
+        {
+            "firstname":"Esraa",
+            "lastname":"Hamed",
+            "username":"essraahamed",
+            "email":"esraahameddabdallahh@gmail.com",
+            "password":"esraa_pass1",
+            "role":"manager"
+        }
+    ],
     "rows":[
         {
             "row_num":"row--1",

@@ -13,6 +13,7 @@ export default function CinemaRoom(props){
     }
     console.log("room_id",room_id);
 
+    
   const [rows, setRows] = useState([]); 
   const [idToreserve,setChairID]=useState();
   const [selectedChairs,setSelectedChairs]=useState([]);
@@ -29,6 +30,22 @@ export default function CinemaRoom(props){
       setEmptyCheck(true);
     }
   }
+
+ /* const GetRoomReservations = () => {
+    axios.get(  apiURL + room_id)
+    .then(response => {
+      console.log(response.data);
+      if(response.data.length > 0) {
+        setIsUser(true);
+        setpassError('');
+        //TODO: Redirect to home page (on successful login)
+  
+      } else if ( response.data.length === 0 && userName && password) {
+        setIsUser(false);
+        setpassError('Incorrect username or password')
+      }
+    })
+  }*/
 
 
   function toggleChair(id,chair_state){
@@ -57,7 +74,7 @@ export default function CinemaRoom(props){
     console.log(selectedChairs);
   }
 
-  useEffect(async()=>{
+  /*useEffect(async()=>{
     fetch('http://localhost:3002/rows')
     .then(
       res=>{return res.json()}
@@ -68,14 +85,13 @@ export default function CinemaRoom(props){
 
     }
     )
-  },[isNotEmpty])
-  /*useEffect(async()=>{
-    GetRoomReservations(room_id).then(response=>{
-      if(response.data.boolean === 1){
-        setRows(response.data);
-      }
-  })
   },[isNotEmpty])*/
+  useEffect(async()=>{
+    GetRoomReservations(room_id).then(response=>{
+        setRows(response.data);
+        console.log("mafe4 data");
+  })
+  },[isNotEmpty])
 
 
     return(

@@ -1,13 +1,16 @@
 import axios from "axios"
 import configData from "../config/development.json"
 const SERVER_URL = configData.SERVER_URL ;
-
+const apiURL = 'http://localhost:3002/rows' ;   //json server
 
 export default async function GetRoomReservations(id){
     try{
-        const response = await axios.get( SERVER_URL+'rows/');
+        console.log("fe el service");
+        const response = axios.get( apiURL);
         // const response = await axios.get( SERVER_URL+'peoplePhotos');
         //Success
+        console.log(response);
+        console.log("success");
         return(response)
     } catch (error){
         if (error.response){
