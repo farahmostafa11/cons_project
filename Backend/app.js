@@ -27,4 +27,9 @@ app.use((req, res, next) => {
 //app.use('/api/v1/tours', customersRouter);
 //Fe controller bynady model
 
+// 3) ROUTES
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/movie', movieRouter);
+
+
 module.exports = app;
