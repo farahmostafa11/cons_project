@@ -13,9 +13,9 @@ function App() {
     <Router>
       <div className='App'>
         <Routes>
-        <Route exact path='/' element={<MoviesShow/>}/>
+        <Route path='homePage/:isLoggedIn' element={<MoviesShow/>}/>
         <Route path='/RoomReservation/:id' element={<CinemaRoom/>}/>
-        <Route path='/Signin' element={< Signin />}></Route>
+        <Route exact path='/' element={< Signin />}></Route>
         <Route path='/Signup' element={< Signup />}></Route>
         <Route path='/SignupSuccess' element={< SignupSuccess />}></Route>
         </Routes>

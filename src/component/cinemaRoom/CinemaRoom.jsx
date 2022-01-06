@@ -120,7 +120,7 @@ export default function CinemaRoom(props){
           </div>
         </div>
         <div className='confirm_reservation'>
-          {!isNotEmpty && <button className='confirmation_button' onClick={sendTickets}>confirm reservation</button>}
+          {!isNotEmpty && <Link style={navStyle} to="/homePage/1"><button className='confirmation_button' onClick={sendTickets}>confirm reservation</button></Link>}
         </div>
         </>
     )

@@ -20,6 +20,9 @@ const [isUser, setIsUser] = useState();
 
 const [unError, setunError] = useState();
 const [passError, setpassError] = useState();
+const navStyle={
+  color:'white'
+};
 
 /**
  * Handles what happens when form is submitted
@@ -44,6 +47,7 @@ const handleSubmit = (e) => {
         setIsUser(true);
         setpassError('');
         //TODO: Redirect to home page (on successful login)
+        window.location.href = 'http://localhost:3000/homePage/1';
   
       } else if ( response.data.length === 0 && userName && password) {
         setIsUser(false);
@@ -110,7 +114,10 @@ return (
        
                 <div className={classes.div__input}>
                 <button className={classes.div_loginbutton} id="login"> Login </button>
-                </div>       
+                </div>   
+                <div className={classes.div__input}>
+                <Link style={navStyle} to={`/homePage/${0}`}><button className={classes.div_loginbutton} id="login"> join as a guest </button></Link>
+                </div>     
                   
                  <br />
                  <hr />
