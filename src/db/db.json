@@ -6,7 +6,7 @@
         "email":"esraahameddabdallahh@gmail.com",
         "password":"esraa_pass1",
         "role":"manager",
-        "reservations":[]
+        "reservations":["1A","2B"]
 },
     "users":[
         {

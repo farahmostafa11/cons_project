@@ -290,7 +290,7 @@ return (
 
           <br />
           <hr />
-          <p> Already have an account? Log in <Link to ="/Signin">here </Link> </p>
+          <p> Already have an account? Log in <Link to ="/">here </Link> </p>
           <br />
           </form>
   </div>

@@ -99,6 +99,9 @@ text-transform: uppercase;
 flex-basis: 20%; 
 font-family:cursive;
 }
+.userName{
+  margin-right: 10px;
+}
 .color_grey{
 color: gray;
 }
@@ -125,4 +128,13 @@ color: #d40f7d  !important;
   font-size: larger;
   background-size:cover;
   background-color:rgb(255, 255, 255);
+}
+
+.cancel_reservation{
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: none;
 }

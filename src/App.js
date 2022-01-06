@@ -14,7 +14,7 @@ function App() {
       <div className='App'>
         <Routes>
         <Route path='homePage/:isLoggedIn' element={<MoviesShow/>}/>
-        <Route path='/RoomReservation/:id' element={<CinemaRoom/>}/>
+        <Route path='/RoomReservation/:id/:isLoggedIn' element={<CinemaRoom/>}/>
         <Route exact path='/' element={< Signin />}></Route>
         <Route path='/Signup' element={< Signup />}></Route>
         <Route path='/SignupSuccess' element={< SignupSuccess />}></Route>

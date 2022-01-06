@@ -14,6 +14,7 @@ export default function MoviesShow(props){
   const [movies, setMovies] = useState([]); 
   const [show, setShow] = useState(false);
   const [user_info, setUserInfo] = useState();
+  const [reservations_array, setreservations_array] = useState([]);
   const [user_role, setUserRole] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const handleClose = () => setShow(false);
@@ -23,7 +24,7 @@ export default function MoviesShow(props){
   {
         axios.get(  'http://localhost:3002/movies' + '?id=' + id)
     .then(response => {
-      console.log(response.data[0].poster);
+      //console.log(response.data[0].poster);
       setPosterImageUrl(response.data[0].poster);
       setMoviename(response.data[0].movieName);
       setDate(response.data[0].Date);
@@ -53,19 +54,19 @@ export default function MoviesShow(props){
   };
   const [isLogedIn, setLogedIn] = useState(false); 
     useEffect(async()=>{
-    console.log("path",path);
+    //console.log("path",path);
     const index = path.split('/');
     var log_in_check = index[2];
     
-    console.log("is_logged",log_in_check);
+    //console.log("is_logged",log_in_check);
     if(log_in_check==undefined){ 
       setLogedIn(false);
-      console.log("und");
+      //console.log("und");
     }
     else if(log_in_check==="1"){
       
-      console.log(isLogedIn);
-      console.log("yes");
+      //console.log(isLogedIn);
+      //console.log("yes");
       setLogedIn(true);
       let r={};
       
@@ -79,9 +80,10 @@ export default function MoviesShow(props){
       .then(
           data=>{
             setUserInfo(data);
-            console.log("data",data);
+            //console.log("data",data);
             if (user_info!=undefined){
               setUserRole(user_info.role==="manager");
+              setreservations_array(user_info.reservations);
             }
             //console.log("Done")
       }
@@ -106,16 +108,10 @@ export default function MoviesShow(props){
     
     
     },[user_info])
-    ////////////////////
-    console.log("bara",isLogedIn)
-    console.log("users_info",user_info);
-    console.log("final user ROLE",user_role);
-    if (user_info!=undefined){
-      //setUserRole(user_info.role);
-      console.log("is manager",user_info.role);
-      
+    //if user want to cancle reservation
+    function handleCancelation(){
+      alert("your reservation is cancled successfully")
     }
-    /////////////////////////
     const [posterImageUrl, setPosterImageUrl] = useState('');
     const [movieName, setMoviename] = useState('');
     const [date, setDate] = useState('');
@@ -281,6 +277,8 @@ const handlePosterImageUrl = (e) => {
           <div className= "align-items-end " >
                           <nav className="nav-bar text-left hi ">
                           <ul className="text-white">
+                              {user_info&&
+                              <li className='userName bold'><p> Welcome, {user_info.firstname}  </p></li>}
                               <li><a href="#home" className=" bold"> Home </a></li>
                               <li><a href="#movies" className=" bold"> Movies </a></li>
                               {isLogedIn && user_role &&
@@ -288,10 +286,13 @@ const handlePosterImageUrl = (e) => {
                               {!isLogedIn &&
                               <>
                               <Link style={navStyle} to="/Signup"><li><a href="#signup" className=" bold"> Sign Up </a></li></Link>
-                              <Link style={navStyle} to="/Signin"><li><a href="#login" className="  bold"> Log In </a></li></Link>
+                              <Link style={navStyle} to="/"><li><a href="#login" className="  bold"> Log In </a></li></Link>
                               </>
                               }
+                              {reservations_array.length!==0 &&
+                              <li><button className='cancel_reservation' onClick={handleCancelation}>cancel reservation</button></li>}
                           </ul>
+                          
                           </nav>
           </div>
                   </div>
@@ -330,7 +331,7 @@ const handlePosterImageUrl = (e) => {
                   <div className="name">
                   {movie.startTime && movie.startTime.map(start=>(
                     <>
-                    <Link style={navStyle} to={`/RoomReservation/${movie.id}`}><p className="bold pink" >Start Time:<span> {start}</span></p></Link>
+                    <Link style={navStyle} to={`/RoomReservation/${movie.id}/${isLogedIn}`}><p className="bold pink" >Start Time:<span> {start}</span></p></Link>
                     </>
                   ))}
                  
