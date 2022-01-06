@@ -1,3 +1,4 @@
+/*
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
@@ -19,7 +20,7 @@ const movieSchema = new mongoose.Schema({
         required: true
     },
     startTime: {
-        type: Date,
+        type: Time,
         require: true,
     },
     endTime: {
@@ -29,3 +30,4 @@ const movieSchema = new mongoose.Schema({
 });
   
 module.exports = mongoose.model('Movie', movieSchema);
+*/

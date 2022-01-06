@@ -48,6 +48,9 @@ const customerSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false
+  },
+  reserv: {
+    type: [{ type : mongoose.Schema.ObjectId, ref: 'Reservation' }]
   }
 });
 
@@ -84,6 +87,14 @@ customerSchema.methods.correctPassword = async function (pass,tokenpass)
  {
   return await bcrypt.compareSync(pass, tokenpass);
 };
+
+roomSchema.pre(/^find/, function(next) {
+  this.populate('Reservation').populate({
+    path: 'reserv',
+    select: '_id'
+  });
+  next();
+});
 
 const Customer = mongoose.model('Customer', customerSchema);
 
