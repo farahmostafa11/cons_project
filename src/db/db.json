@@ -1,4 +1,13 @@
 {
+    "user":{
+        "firstname":"Esraa",
+        "lastname":"Hamed",
+        "username":"farahMostafa",
+        "email":"esraahameddabdallahh@gmail.com",
+        "password":"esraa_pass1",
+        "role":"manager",
+        "reservations":["1A","2B"]
+},
     "users":[
         {
             "firstname":"Esraa",
@@ -6,7 +15,8 @@
             "username":"essraahamed",
             "email":"esraahameddabdallahh@gmail.com",
             "password":"esraa_pass1",
-            "role":"manager"
+            "role":"manager",
+            "reservations":[]
         }
     ],
     "rows":[

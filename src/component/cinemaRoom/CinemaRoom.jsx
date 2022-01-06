@@ -1,19 +1,20 @@
 import React,{useState,useEffect} from 'react';
 import './CinemaRoom.scss';
 import {Link} from "react-router-dom";
-import GetRoomReservations from "../../services/screenRoom.js"
+import GetRoomReservations,{AddReservations} from "../../services/screenRoom.js"
 export default function CinemaRoom(props){
 
   const path = window.location.pathname;
   console.log("path",path);
     const index = path.split('/');
     var room_id = index[2];
+    var loggedIn=index[3];
     if(room_id==undefined){ 
       room_id='null';
     }
     console.log("room_id",room_id);
 
-    
+  const [isLogedIn, setLogedIn] = useState(0); 
   const [rows, setRows] = useState([]); 
   const [idToreserve,setChairID]=useState();
   const [selectedChairs,setSelectedChairs]=useState([]);
@@ -72,6 +73,7 @@ export default function CinemaRoom(props){
   }
   function sendTickets(){
     console.log(selectedChairs);
+    AddReservations(selectedChairs);
   }
 
   /*useEffect(async()=>{
@@ -87,6 +89,12 @@ export default function CinemaRoom(props){
     )
   },[isNotEmpty])*/
   useEffect(async()=>{
+    if(loggedIn==="true"){
+      setLogedIn(1);
+    }
+    else{
+      setLogedIn(0);
+    }
     GetRoomReservations(room_id).then(response=>{
         setRows(response.data);
         console.log("mafe4 data");
@@ -120,7 +128,7 @@ export default function CinemaRoom(props){
           </div>
         </div>
         <div className='confirm_reservation'>
-          {!isNotEmpty && <button className='confirmation_button' onClick={sendTickets}>confirm reservation</button>}
+          {isLogedIn&& !isNotEmpty && <Link style={navStyle} to={`/homePage/${isLogedIn}`}><button className='confirmation_button' onClick={sendTickets}>confirm reservation</button></Link>}
         </div>
         </>
     )
