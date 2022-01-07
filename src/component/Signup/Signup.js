@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
+import addUser from "../../services/userServices"
 import classes from './Signup.module.css'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
@@ -89,7 +90,7 @@ if(emailError==='' && passError==='' && rePassError==='' && fnError==='' && lnEr
         password: password,
         role: role
        }
-      axios.post( apiURL , userInfo ) //json server
+      addUser(userInfo) //json server
       .then(response => {
        console.log(response)
      })

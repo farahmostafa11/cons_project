@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import classes from './Signin.module.css'
+import {userLogin} from "../../services/userServices"
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 
@@ -40,13 +41,16 @@ const handleSubmit = (e) => {
  * Checks if the user actually exists, if yes it directs the user to the home page
  */
  const checkUserInput = () => {
-    axios.get(  apiURL + '?username=' + userName + '&password=' + password )
+  const data={username: userName,
+              password: password};
+    userLogin(data)
     .then(response => {
       console.log(response.data);
-      if(response.data.length > 0) {
+      if(response.data!=undefined) {
         setIsUser(true);
         setpassError('');
         //TODO: Redirect to home page (on successful login)
+        console.log("bye");
         window.location.href = 'http://localhost:3000/homePage/1';
   
       } else if ( response.data.length === 0 && userName && password) {

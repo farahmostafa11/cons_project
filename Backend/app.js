@@ -1,10 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
+var cors = require('cors')
+
 
 
 const customersRouter = require('./routes/customerRoute.js');
 const app = express();
-
+app.use(cors()) // Use this after the variable declaration
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
