@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const timestamps    = require('mongoose-timestamp');
+
 
 const movieSchema = new mongoose.Schema({
     screeningRoom: {
