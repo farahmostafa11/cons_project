@@ -5,6 +5,8 @@ var cors = require('cors')
 
 
 const customersRouter = require('./routes/customerRoute.js');
+const movieRouter = require('./routes/movieRoute');
+
 const app = express();
 app.use(cors()) // Use this after the variable declaration
 // 1) MIDDLEWARES
@@ -27,6 +29,8 @@ app.use((req, res, next) => {
 
 // 3) ROUTES
 app.use('/api/customer', customersRouter);
+
+app.use('/api/v1/movie', movieRouter);
 
 //IM
 //Fe controller bynady model
