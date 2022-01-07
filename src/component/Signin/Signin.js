@@ -51,7 +51,8 @@ const handleSubmit = (e) => {
         setpassError('');
         //TODO: Redirect to home page (on successful login)
         console.log("bye");
-        window.location.href = 'http://localhost:3000/homePage/1';
+        
+        window.location.href = 'http://localhost:3000/homePage/1/'+response.data._id;
   
       } else if ( response.data.length === 0 && userName && password) {
         setIsUser(false);

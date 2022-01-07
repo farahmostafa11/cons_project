@@ -285,8 +285,8 @@ const handlePosterImageUrl = (e) => {
                               <li><a href="#addMovie" onClick={handleShow} className="  bold" > addMovie </a></li>}
                               {!isLogedIn &&
                               <>
-                              <Link style={navStyle} to="/Signup"><li><a href="#signup" className=" bold"> Sign Up </a></li></Link>
-                              <Link style={navStyle} to="/"><li><a href="#login" className="  bold"> Log In </a></li></Link>
+                              <Link style={navStyle} to="/Signup"><li className=" bold">Sign Up</li></Link>
+                              <Link style={navStyle} to="/"><li className="  bold"> Log In </li></Link>
                               </>
                               }
                               {reservations_array.length!==0 &&
