@@ -1,0 +1,49 @@
+.center
+{
+    color: black;
+    padding-bottom: 3%;
+    padding-top: 3%;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.formsuccess
+{
+    width: 500px;
+    height: max-content;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin: 7% auto;
+    
+    text-align: center;
+    background-position: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-size: cover;
+    background-color: transparent;
+  
+}
+
+
+.form_page {
+
+     background-size:cover;
+    background-position:inherit;
+    padding-top: 1px;
+    padding-bottom: 10%;
+    background-image: url(bg14.jpeg);
+    background-attachment:fixed;
+    padding-top: 7%;
+    height:100%;
+     width: 100%;
+    min-height: 100vh;
+}
+
+.img__formsuccess {
+     height: auto;
+    width: 110px;
+    position: relative;
+    padding-right: 6%;
+    margin-top: 6%;
+    margin-left: 1%;
+}
