@@ -6,6 +6,8 @@ var cors = require('cors')
 
 const customersRouter = require('./routes/customerRoute.js');
 const movieRouter = require('./routes/movieRoute');
+const roomRouter=require('./routes/roomRoute.js');
+const chairRouter=require('./routes/chairRoute.js');
 
 const app = express();
 app.use(cors()) // Use this after the variable declaration
@@ -18,7 +20,7 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
-  console.log('Hello from the middleware');
+  console.log('Holaa, middleware is here');
   next();
 });
 
@@ -29,8 +31,9 @@ app.use((req, res, next) => {
 
 // 3) ROUTES
 app.use('/api/customer', customersRouter);
-
-app.use('/api/v1/movie', movieRouter);
+app.use('/api/room', roomRouter);
+app.use('/api/movie', movieRouter);
+app.use('/api/chair',chairRouter)
 
 //IM
 //Fe controller bynady model

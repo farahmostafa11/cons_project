@@ -16,11 +16,12 @@ const roomSchema = new mongoose.Schema({
     },
     numberOfRowSeats: {
         type: Number,
+        enum: [2,3],
         required: [true, 'Must Enter The Number of rows of seats in room']
     },
     numberOfColumnSeats: {
         type: Number,
-        required: [true, 'Must Enter The Number of columns of seats in room']
+        default:10
     }
 });
 

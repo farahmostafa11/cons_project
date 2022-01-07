@@ -9,26 +9,31 @@ const movieSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        required: true, 
+        required: [true, 'Must Enter UNIQUE movie title'], 
         unique: true
     },
     date: {
-        type: Date,
-        required: true
+        type: String,
+        required: [true, 'Must Enter Date of Publishing this movie']
     },
     poster: {
         type: String,
         default: 'https://drive.google.com/file/d/1Ehyi9nKaMJ9lsowbjxkW-B3km1rnxJB9/view?usp=sharing',
         required: true
     },
+    slideshow: {
+        type: String,
+        default: 'https://drive.google.com/file/d/1Ehyi9nKaMJ9lsowbjxkW-B3km1rnxJB9/view?usp=sharing',
+        required: true
+    },
     
     startTime: {
-        type: String,
-        require: true,
+        type: [String],
+        require:  [true, 'Must Enter Start Time of Showing this movie']
     },
     endTime: {
-        type: String,
-        require: true,
+        type: [String],
+        require: [true, 'Must Enter End Time of Showing this movie']
     }
 });
 
@@ -39,6 +44,12 @@ movieSchema.pre(/^find/, function(next) {
     });
     next();
   });
+
+movieSchema.methods.checkDate = async function (datearr)
+ {
+
+  return new Date(new Date(datearr[2], datearr[1], datearr[0]).toDateString()) < new Date(new Date().toDateString());
+};
 
 const Movie = mongoose.model('Movie', movieSchema);
 
