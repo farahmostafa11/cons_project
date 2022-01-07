@@ -35,7 +35,7 @@ const movieSchema = new mongoose.Schema({
 movieSchema.pre(/^find/, function(next) {
     this.populate('Room').populate({
       path: 'screeningRoom',
-      select: 'name'
+      select: '_id'
     });
     next();
   });

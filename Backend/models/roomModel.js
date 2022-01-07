@@ -5,8 +5,12 @@ const roomSchema = new mongoose.Schema({
     moviesShown: {
         type: [{ type : mongoose.Schema.ObjectId, ref: 'Movie' }]
     },
+    chairs:{
+        type: [{ type : mongoose.Schema.ObjectId, ref: 'Chair' }]
+    },
     name: {
         type: String,
+        enum: ['Room1','Room2'],
         required: [true, 'Must Enter The Room Name'], 
         unique: true
     },
@@ -22,12 +26,19 @@ const roomSchema = new mongoose.Schema({
 
 roomSchema.pre(/^find/, function(next) {
     this.populate('Movie').populate({
-      path: 'screeningRoom',
+      path: 'moviesShown',
       select: 'title'
     });
     next();
   });
 
-const Room = mongoose.model('Movie', roomSchema);
+  roomSchema.pre(/^find/, function(next) {
+    this.populate('Chair').populate({
+      path: 'chairs',
+      select: 'title'
+    });
+    next();
+  });
+const Room = mongoose.model('Room', roomSchema);
 
 module.exports = Room;

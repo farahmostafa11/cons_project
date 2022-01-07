@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 
-//const customersRouter = require('./routes/customersRoutes');
+const customersRouter = require('./routes/customerRoute.js');
 const app = express();
 
 // 1) MIDDLEWARES
@@ -24,14 +24,11 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-//app.use('/api/v1/tours', customersRouter);
+app.use('/api/customer', customersRouter);
 
 //IM
 //Fe controller bynady model
 
-// 3) ROUTES
-//app.use('/api/v1/user', userRouter);
-//app.use('/api/v1/movie', movieRouter);
 
 
 module.exports = app;

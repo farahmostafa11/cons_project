@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const Reservation=require('./reservationModel');
 
 const SALT = 12;
 const customerSchema = new mongoose.Schema({
@@ -37,21 +38,25 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Must Enter A VALID Password'],
     minlength: 8,
-    
-    select: false
+  
   },
   
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false
-  },
-  reserv: {
-    type: [{ type : mongoose.Schema.ObjectId, ref: 'Reservation' }]
+  
+  reservtions: {
+    type: [{ type : mongoose.Schema.ObjectId, ref:Reservation }]
   }
+});
+
+// TODO
+customerSchema.pre(/^find/, function(next) {
+  this.populate('Reservation').populate({
+    path: 'reservtions',
+    select: '_id'
+  });
+  next();
 });
 
 customerSchema.pre('save', async function(next) {
@@ -83,18 +88,10 @@ customerSchema.methods.createPasswordResetToken = function() {
   return resetToken;
 };
 
-customerSchema.methods.correctPassword = async function (pass,tokenpass)
+customerSchema.methods.correctPassword = async function (tokenpass,pass)
  {
-  return await bcrypt.compareSync(pass, tokenpass);
+  return await bcrypt.compareSync(tokenpass, pass);
 };
-
-roomSchema.pre(/^find/, function(next) {
-  this.populate('Reservation').populate({
-    path: 'reserv',
-    select: '_id'
-  });
-  next();
-});
 
 const Customer = mongoose.model('Customer', customerSchema);
 
