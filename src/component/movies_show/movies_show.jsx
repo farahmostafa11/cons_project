@@ -18,9 +18,31 @@ export default function MoviesShow(props){
   const [reservations_array, setreservations_array] = useState([]);
   const [user_role, setUserRole] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+  const handleClose = () => {
+    setPosterImageUrl('');
+    setMoviename('');
+    setDate('');
+    setSlideshowUrl('');
+    setStartTime1('');
+    setStartTime2('');
+    setStartTime3('');
+    setEndTime1('');
+    setEndTime2('');
+    setEndTime3('');
+    setfnError('');
+    setlnError('');
+    setunError('');
+    setemailError('');
+    setStart1Error('');
+    setStart2Error('');
+    setStart3Error('');
+    setEnd1Error('');
+    setEnd2Error('');
+    setEnd3Error('');
+    setShow(false);
+
+  }
   const handleShowUpdate=(id)=>
   {
         axios.get(  'http://localhost:3002/movies' + '?id=' + id)
@@ -42,6 +64,29 @@ export default function MoviesShow(props){
   })
     setShowUpdate(true);
   } 
+  const handleCloseUpdate = () => {
+    setPosterImageUrl('');
+    setMoviename('');
+    setDate('');
+    setSlideshowUrl('');
+    setStartTime1('');
+    setStartTime2('');
+    setStartTime3('');
+    setEndTime1('');
+    setEndTime2('');
+    setEndTime3('');
+    setfnError('');
+    setlnError('');
+    setunError('');
+    setemailError('');
+    setStart1Error('');
+    setStart2Error('');
+    setStart3Error('');
+    setEnd1Error('');
+    setEnd2Error('');
+    setEnd3Error('');
+    setShowUpdate(false);
+  }
 
   function setrole(role){
     if (role==="manager"){
@@ -51,8 +96,15 @@ export default function MoviesShow(props){
       setUserRole(false);
     }
   }
+ function room1fn(){
+  roomNo=room1;
+  console.log("here");
+  console.log(room1);
+ }
+ function room2fn(){
+  roomNo=room2;
+}
 
-  const handleCloseUpdate = () => setShowUpdate(false);
   const navStyle={
     color:'white'
   };
@@ -120,27 +172,28 @@ export default function MoviesShow(props){
     }
     const room1= '61d8552a04ce814d3cad487a';//30
     const room2= '61d85604e50dc24ad4ff3a5f';//20
-    const [posterImageUrl, setPosterImageUrl] = useState('');
-    const [movieName, setMoviename] = useState('');
-    const [date, setDate] = useState('');
-    const [slideshowUrl, setSlideshowUrl] = useState('');
-    const [fnError, setfnError] = useState();
-    const [lnError, setlnError] = useState();
-    const [unError, setunError] = useState();
-    const [emailError, setemailError] = useState();
-    const [errorcount, setErrorCount] = useState('');
-    const [startTime1,setStartTime1]=useState('');
-    const [startTime2,setStartTime2]=useState('');
-    const [startTime3,setStartTime3]=useState('');
-    const [start1Error,setStart1Error]=useState('');
-    const [start2Error,setStart2Error]=useState('');
-    const [start3Error,setStart3Error]=useState('');
-    const [endTime1,setEndTime1]=useState('');
-    const [endTime2,setEndTime2]=useState('');
-    const [endTime3,setEndTime3]=useState('');
-    const [end1Error,setEnd1Error]=useState('');
-    const [end2Error,setEnd2Error]=useState('');
-    const [end3Error,setEnd3Error]=useState('');
+    var [posterImageUrl, setPosterImageUrl] = useState('');
+    var [movieName, setMoviename] = useState('');
+    var [date, setDate] = useState('');
+    var [slideshowUrl, setSlideshowUrl] = useState('');
+    var [fnError, setfnError] = useState();
+    var [lnError, setlnError] = useState();
+    var [unError, setunError] = useState();
+    var [emailError, setemailError] = useState();
+    var [errorcount, setErrorCount] = useState('');
+    var [startTime1,setStartTime1]=useState('');
+    var [startTime2,setStartTime2]=useState('');
+    var [startTime3,setStartTime3]=useState('');
+    var [start1Error,setStart1Error]=useState('');
+    var [start2Error,setStart2Error]=useState('');
+    var [start3Error,setStart3Error]=useState('');
+    var [endTime1,setEndTime1]=useState('');
+    var [endTime2,setEndTime2]=useState('');
+    var [endTime3,setEndTime3]=useState('');
+    var [end1Error,setEnd1Error]=useState('');
+    var [end2Error,setEnd2Error]=useState('');
+    var [end3Error,setEnd3Error]=useState('');
+    var roomNo;
     //Poster Url
 const handlePosterImageUrl = (e) => {
   setPosterImageUrl(e.target.value);
@@ -203,25 +256,30 @@ const handlePosterImageUrl = (e) => {
 
     //poster
     if(!posterImageUrl) {
+        console.log("fady");
         setfnError('Poster Image Url is required');
+        fnError='Poster Image Url is required';
         setErrorCount(1);
     } else{setfnError(''); setErrorCount(0);}
 
     //movie Name
     if(!movieName) {
         setlnError('Movie name is required');
+        lnError='Movie name is required';
         setErrorCount(1);
     } else{setlnError(''); setErrorCount(0);}
 
     //Date
     if(!date) {
         setunError('Date is required');
+        unError='Date is required';
         setErrorCount(1);
     } else{setunError(''); setErrorCount(0);}
 
     //Slide show
     if(!slideshowUrl){
         setemailError('Slideshow Url is required');
+        emailError="Slideshow Url is required"
         setErrorCount(1);
     }
     
@@ -230,6 +288,7 @@ const handlePosterImageUrl = (e) => {
     // StartTimes
     if(!startTime1){
       setStart1Error('start time is required');
+      start1Error='start time is required';
       setErrorCount(1);
   }
   else {setStart1Error(''); setErrorCount(0);}
@@ -238,6 +297,7 @@ const handlePosterImageUrl = (e) => {
       // StartTimes
       if(!startTime2){
         setStart2Error('start time is required');
+        start2Error='start time is required';
         setErrorCount(1);
     }
     else {setStart2Error(''); setErrorCount(0);}
@@ -246,29 +306,33 @@ const handlePosterImageUrl = (e) => {
     // StartTimes
         if(!startTime3){
           setStart3Error('start time is required');
+          start3Error='start time is required';
           setErrorCount(1);
          }
          else {setStart3Error(''); setErrorCount(0);}
    //End Times
          if(!endTime1){
           setEnd1Error('End time is required');
+          end1Error='end time is required';
           setErrorCount(1);
       }
       else {setEnd1Error(''); setErrorCount(0);}
 
          if(!endTime2){
           setEnd2Error('End time is required');
+          end2Error='end time is required';
           setErrorCount(1);
       }
       else {setEnd2Error(''); setErrorCount(0);}
       
           if(!endTime3){
             setEnd3Error('End time is required');
+            end3Error='end time is required';
             setErrorCount(1);
            }
            else {setEnd3Error(''); setErrorCount(0);}
+           
          } 
-
   
 
   
@@ -283,7 +347,7 @@ const handlePosterImageUrl = (e) => {
           poster:posterImageUrl,
             movieName:movieName,
             Date: date,
-            id:room2,
+            id:roomNo,
             slideShow:slideshowUrl,
             startTime: [
               startTime1,
@@ -302,16 +366,7 @@ const handlePosterImageUrl = (e) => {
   });
         handleClose();
         e.target.reset();
-        setPosterImageUrl('');
-        setMoviename('');
-        setDate('');
-        setSlideshowUrl('');
-        setStartTime1('');
-        setStartTime2('');
-        setStartTime3('');
-        setEndTime1('');
-        setEndTime2('');
-        setEndTime3('');
+
 
         // navigate(path);
       }
@@ -325,16 +380,7 @@ const handlePosterImageUrl = (e) => {
         let path = '/SignupSuccess';
         handleCloseUpdate();
         // e.target.reset();
-        setPosterImageUrl('');
-        setMoviename('');
-        setDate('');
-        setSlideshowUrl('');
-        setStartTime1('');
-        setStartTime2('');
-        setStartTime3('');
-        setEndTime1('');
-        setEndTime2('');
-        setEndTime3('');
+   
 
 
         // navigate(path);
@@ -502,6 +548,13 @@ const handlePosterImageUrl = (e) => {
                  onChange={handleEndTimeInput3} value={endTime3} />
                  <p className={classes.p__error}>{end3Error}</p>
          </div>
+         <div class="form-group center ">
+         <label for="roomNo.">Room Number</label>
+         <select id="roomNo." class="form-control">
+          <option onClick={room1fn()}value={"1"} >Room1</option>
+          <option onClick={room2fn()} value={"2"}>Room2</option>
+         </select>
+           </div>
 
          <div className={classes.div__input}>
          <button type="submit" className={classes.div_signupbutton} id="addMovieBtn" >Add Movie </button>
@@ -570,6 +623,7 @@ const handlePosterImageUrl = (e) => {
                  onChange={handleEndTimeInput3} value={endTime3} />
                  <p className={classes.p__error}>{end3Error}</p>
          </div>
+        
 
          <div className={classes.div__input}>
          <button type="submit" className={classes.div_signupbutton} id="UpdateBtn" >Edit Movie </button>
