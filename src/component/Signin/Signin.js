@@ -123,7 +123,7 @@ return (
                 <button className={classes.div_loginbutton} id="login"> Login </button>
                 </div>   
                 <div className={classes.div__input}>
-                <Link style={navStyle} to={`/homePage/${0}`}><button className={classes.div_loginbutton} id="login"> join as a guest </button></Link>
+                <Link style={navStyle} to={`/homePage/${0}/-1`}><button className={classes.div_loginbutton} id="login"> join as a guest </button></Link>
                 </div>     
                   
                  <br />

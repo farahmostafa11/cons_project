@@ -64,11 +64,13 @@ export default function MoviesShow(props){
       //console.log("und");
     }
     else if(log_in_check==="1"){
-      
-      //console.log(isLogedIn);
+      //to be used in get user by id
+      var user_id=index[3];
+      console.log("USER ID FE EL MOVIEEE",user_id);
       //console.log("yes");
       setLogedIn(true);
       let r={};
+
       
       fetch('http://localhost:3002/user')
       .then(
