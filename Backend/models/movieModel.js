@@ -46,11 +46,6 @@ movieSchema.pre(/^find/, function(next) {
   });
 */
 
-movieSchema.methods.checkDate = async function (datearr)
- {
-
-  return new Date(new Date(datearr[2], datearr[1], datearr[0]).toDateString()) < new Date(new Date().toDateString());
-};
 
 
 const Movie = mongoose.model('Movie', movieSchema);

@@ -32,6 +32,9 @@ export default function MoviesShow(props){
       setStartTime1(response.data[0].startTime[0])
       setStartTime2(response.data[0].startTime[1])
       setStartTime3(response.data[0].startTime[2])
+      setEndTime1(response.data[0].endTime[0])
+      setEndTime2(response.data[0].endTime[1])
+      setEndTime3(response.data[0].endTime[2])
       // if(response.data.length > 0) {
       //   setemailError('Email unavailable');
       // }
@@ -114,6 +117,8 @@ export default function MoviesShow(props){
     function handleCancelation(){
       alert("your reservation is cancled successfully")
     }
+    const room1= '61d8552a04ce814d3cad487a';//30
+    const room2= '61d85604e50dc24ad4ff3a5f';//20
     const [posterImageUrl, setPosterImageUrl] = useState('');
     const [movieName, setMoviename] = useState('');
     const [date, setDate] = useState('');
@@ -129,6 +134,12 @@ export default function MoviesShow(props){
     const [start1Error,setStart1Error]=useState('');
     const [start2Error,setStart2Error]=useState('');
     const [start3Error,setStart3Error]=useState('');
+    const [endTime1,setEndTime1]=useState('');
+    const [endTime2,setEndTime2]=useState('');
+    const [endTime3,setEndTime3]=useState('');
+    const [end1Error,setEnd1Error]=useState('');
+    const [end2Error,setEnd2Error]=useState('');
+    const [end3Error,setEnd3Error]=useState('');
     //Poster Url
 const handlePosterImageUrl = (e) => {
   setPosterImageUrl(e.target.value);
@@ -171,6 +182,21 @@ const handlePosterImageUrl = (e) => {
     setStartTime3(e.target.value);  
     if(e.target.value) 
     {setStart3Error(''); setErrorCount(0)}
+  }
+  const handleEndTimeInput1 = (e) => {
+    setEndTime1(e.target.value);  
+    if(e.target.value) 
+    {setEnd1Error(''); setErrorCount(0)}
+  }
+  const handleEndTimeInput2 = (e) => {
+    setEndTime2(e.target.value);  
+    if(e.target.value) 
+    {setEnd2Error(''); setErrorCount(0)}
+  }
+  const handleEndTimeInput3 = (e) => {
+    setEndTime3(e.target.value);  
+    if(e.target.value) 
+    {setEnd3Error(''); setErrorCount(0)}
   }
   const validateInfo = () => {
 
@@ -222,6 +248,24 @@ const handlePosterImageUrl = (e) => {
           setErrorCount(1);
          }
          else {setStart3Error(''); setErrorCount(0);}
+   //End Times
+         if(!endTime1){
+          setEnd1Error('End time is required');
+          setErrorCount(1);
+      }
+      else {setEnd1Error(''); setErrorCount(0);}
+
+         if(!endTime2){
+          setEnd2Error('End time is required');
+          setErrorCount(1);
+      }
+      else {setEnd2Error(''); setErrorCount(0);}
+      
+          if(!endTime3){
+            setEnd3Error('End time is required');
+            setErrorCount(1);
+           }
+           else {setEnd3Error(''); setErrorCount(0);}
          } 
 
   
@@ -230,8 +274,30 @@ const handlePosterImageUrl = (e) => {
     const submitForm = (e) => {
       // e.preventDefault();
       validateInfo();
-      if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error===''&& start3Error==='') {
+      if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
         let path = '/SignupSuccess';
+        const apiURL = 'http://localhost:3002/movie/addMovie';
+        const requestJson={
+          poster:posterImageUrl,
+            movieName:movieName,
+            Date: date,
+            id:room2,
+            slideShow:slideshowUrl,
+            startTime: [
+              startTime1,
+              startTime2,
+              startTime3
+            ] ,
+            endTime:[ 
+                endTime1,
+                endTime2,
+                endTime3
+            ]
+        };
+        axios.post(  apiURL,requestJson  )
+    .then(response => {
+      console.log(response.message);   
+  });
         handleClose();
         e.target.reset();
         setPosterImageUrl('');
@@ -241,6 +307,9 @@ const handlePosterImageUrl = (e) => {
         setStartTime1('');
         setStartTime2('');
         setStartTime3('');
+        setEndTime1('');
+        setEndTime2('');
+        setEndTime3('');
 
         // navigate(path);
       }
@@ -250,7 +319,7 @@ const handlePosterImageUrl = (e) => {
     const submitFormUpdate = (e) => {
         // e.preventDefault();
         validateInfo();
-        if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error===''&& start3Error==='') {
+        if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
         let path = '/SignupSuccess';
         handleCloseUpdate();
         // e.target.reset();
@@ -261,6 +330,10 @@ const handlePosterImageUrl = (e) => {
         setStartTime1('');
         setStartTime2('');
         setStartTime3('');
+        setEndTime1('');
+        setEndTime2('');
+        setEndTime3('');
+
 
         // navigate(path);
       }
@@ -283,8 +356,9 @@ const handlePosterImageUrl = (e) => {
                               <li className='userName bold'><p> Welcome, {user_info.firstname}  </p></li>}
                               <li><a href="#home" className=" bold"> Home </a></li>
                               <li><a href="#movies" className=" bold"> Movies </a></li>
-                              {isLogedIn && user_role &&
-                              <li><a href="#addMovie" onClick={handleShow} className="  bold" > addMovie </a></li>}
+                              {/* {isLogedIn && user_role && */}
+                              <li><a href="#addMovie" onClick={handleShow} className="  bold" > addMovie </a></li>
+                              {/* } */}
                               {!isLogedIn &&
                               <>
                               <Link style={navStyle} to="/Signup"><li className=" bold">Sign Up</li></Link>
@@ -402,14 +476,29 @@ const handlePosterImageUrl = (e) => {
                  <p className={classes.p__error}>{start1Error}</p>
          </div>
          <div className={classes.div__input}>
+          <input type="time" placeholder="End time" className={classes.div__inputfield} id="endTime1" 
+                 onChange={handleEndTimeInput1} value={endTime1} />
+                 <p className={classes.p__error}>{end1Error}</p>
+         </div>
+         <div className={classes.div__input}>
           <input type="time" placeholder="Start time" className={classes.div__inputfield} id="startTime2" 
                  onChange={handleStartTimeInput2} value={startTime2} />
                  <p className={classes.p__error}>{start2Error}</p>
          </div>
          <div className={classes.div__input}>
+          <input type="time" placeholder="End time" className={classes.div__inputfield} id="endTime2" 
+                 onChange={handleEndTimeInput2} value={endTime2} />
+                 <p className={classes.p__error}>{end2Error}</p>
+         </div>
+         <div className={classes.div__input}>
           <input type="time" placeholder="Start time" className={classes.div__inputfield} id="startTime3" 
                  onChange={handleStartTimeInput3} value={startTime3} />
                  <p className={classes.p__error}>{start3Error}</p>
+         </div>
+         <div className={classes.div__input}>
+          <input type="time" placeholder="End time" className={classes.div__inputfield} id="endTime3" 
+                 onChange={handleEndTimeInput3} value={endTime3} />
+                 <p className={classes.p__error}>{end3Error}</p>
          </div>
 
          <div className={classes.div__input}>
@@ -438,7 +527,7 @@ const handlePosterImageUrl = (e) => {
          </div>
 
          <div className={classes.div__input}>
-         <input type="date" placeholder="Release Date" className={classes.div__inputfield} id="date" 
+         <input type="text" placeholder="Release Date" className={classes.div__inputfield} id="date" 
                 onChange={handleDateInput} value={date} />
                 <p className={classes.p__error}>{unError}</p>
          </div>
@@ -450,19 +539,34 @@ const handlePosterImageUrl = (e) => {
          </div>
 
          <div className={classes.div__input}>
-          <input type="time" placeholder="Start time" className={classes.div__inputfield} id="startTime1" 
+          <input type="text" placeholder="Start time" className={classes.div__inputfield} id="startTime1" 
                  onChange={handleStartTimeInput1} value={startTime1} />
                  <p className={classes.p__error}>{start1Error}</p>
          </div>
          <div className={classes.div__input}>
-          <input type="time" placeholder="Start time" className={classes.div__inputfield} id="startTime2" 
+          <input type="text" placeholder="End time" className={classes.div__inputfield} id="endTime1" 
+                 onChange={handleEndTimeInput1} value={endTime1} />
+                 <p className={classes.p__error}>{end1Error}</p>
+         </div>
+         <div className={classes.div__input}>
+          <input type="text" placeholder="Start time" className={classes.div__inputfield} id="startTime2" 
                  onChange={handleStartTimeInput2} value={startTime2} />
                  <p className={classes.p__error}>{start2Error}</p>
          </div>
          <div className={classes.div__input}>
-          <input type="time" placeholder="Start time" className={classes.div__inputfield} id="startTime3" 
+          <input type="text" placeholder="End time" className={classes.div__inputfield} id="endTime2" 
+                 onChange={handleEndTimeInput2} value={endTime2} />
+                 <p className={classes.p__error}>{end2Error}</p>
+         </div>
+         <div className={classes.div__input}>
+          <input type="text" placeholder="Start time" className={classes.div__inputfield} id="startTime3" 
                  onChange={handleStartTimeInput3} value={startTime3} />
                  <p className={classes.p__error}>{start3Error}</p>
+         </div>
+         <div className={classes.div__input}>
+          <input type="text" placeholder="End time" className={classes.div__inputfield} id="endTime3" 
+                 onChange={handleEndTimeInput3} value={endTime3} />
+                 <p className={classes.p__error}>{end3Error}</p>
          </div>
 
          <div className={classes.div__input}>
