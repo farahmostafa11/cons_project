@@ -18,6 +18,7 @@ const Signup = (props) => {
 const apiURL = 'http://localhost:3002/users' ;   //json server
 const navigate = useNavigate();
 var hasNumber = /\d/;  //used in password validation
+var hasLetter = /[a-zA-Z]/;  //used in passsword validation
 
 const [firstName, setFirstname] = useState('');
 const [lastName, setLastname] = useState('');
@@ -26,6 +27,7 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [rePassword, setrePassword] = useState('');
 const [role, setRole] = useState('customer'); //role is set to Customer by default
+const [exists, setExists] = useState(false);
 
 const [fnError, setfnError] = useState();
 const [lnError, setlnError] = useState();
@@ -104,144 +106,154 @@ if(emailError==='' && passError==='' && rePassError==='' && fnError==='' && lnEr
      })
 }
 }
-
 //---------------------------------------- HANDLING INPUTS ---------------------------------------//
 // ** Handling input functions also contain validations to provide instant validation on typing ** //
 
 //First Name
 const handleFirstNameInput = (e) => {
-setFirstname(e.target.value);
-if(e.target.value) 
-{setfnError(''); setErrorCount(0)}
-}
-
-//Last Name
-const handleLastNameInput = (e) => {
-setLastname(e.target.value); 
-if(e.target.value) 
-{setlnError(''); setErrorCount(0)}
-}
-
-//Username
-const handleUserNameInput = (e) => {
-    setUsername(e.target.value); 
-    if(e.target.value) 
-    {setunError(''); setErrorCount(0)}
-}
-
-//Email
-const handleEmailInput = (e) => {
-    setEmail(e.target.value);  
-   if (!/\S+@\S+\.\S+/.test(e.target.value) && e.target.value) {
-      setemailError('Email address is invalid');
-      setErrorCount(1);
-  }    
-  else if(e.target.value) 
-  {setemailError(''); setErrorCount(0)}
-}
-
-//Password
-const handlePasswordInput = (e) => {
-setPassword(e.target.value);
- if (e.target.value && e.target.value.length < 8) {
-  setpassError('Password should be 8 characters or more');
-} else if (e.target.value && !hasNumber.test(e.target.value)){
-  setpassError('Password should contain at least 1 number');
-}
-else if(e.target.value){
-  setpassError('');
-}
-}
-
-//Confirm Password
-const handleConfirmPasswordInput = (e) => {
-setrePassword(e.target.value);   
-// if(rePassword !== password){
-//   setrePassError('Passwords do not match'); 
-// } else{
-//       setrePassError('');
-// }
-if(e.target.value && e.target.value !== password){
-  console.log("enteredd");
-   setrePassError('Passwords do not match'); 
-} else if(e.target.value){
-       setrePassError('');
-}
-}
-
-//Setting roles
-const handleCustomerButton = (e) => {
-setRole("customer");
-console.log(role);
-}
-
-const handleManagerButton = (e) => {
-setRole("manager");
-console.log(role);
-}
-// ---------------------------------------- VALIDATIONS ---------------------------------------------- //
-/**
- * Insures that all input data is valid
- * This is what provides instant validation on submiiting the form
- */
- const validateInfo = () => {
-
-    //First name
-    if(!firstName) {
-        setfnError('First name is required');
-        setErrorCount(1);
-    } else{setfnError(''); setErrorCount(0)}
-
-    //Last name
-    if(!lastName) {
-        setlnError('Last name is required');
-        setErrorCount(1);
-    } else{setlnError(''); setErrorCount(0)}
-
-    //Username
-    if(!userName) {
-        setunError('Username is required');
-        setErrorCount(1);
-    } else{setunError(''); setErrorCount(0)}
-
-    //Email
-    if(!email){
-        setemailError('Email is required');
-        setErrorCount(1);
-    }
-    else if (!/\S+@\S+\.\S+/.test(email)) {
+  setFirstname(e.target.value);
+  if(e.target.value) 
+  {setfnError(''); setErrorCount(0)}
+  }
+  
+  //Last Name
+  const handleLastNameInput = (e) => {
+  setLastname(e.target.value); 
+  if(e.target.value) 
+  {setlnError(''); setErrorCount(0)}
+  }
+  
+  //Username
+  const handleUserNameInput = (e) => {
+      setUsername(e.target.value); 
+      if(e.target.value) 
+      {setunError(''); setErrorCount(0)}
+  }
+  
+  //Email
+  const handleEmailInput = (e) => {
+      setEmail(e.target.value);  
+     if (!/\S+@\S+\.\S+/.test(e.target.value) && e.target.value) {
         setemailError('Email address is invalid');
         setErrorCount(1);
-    }
-    else {setemailError(''); setErrorCount(0)}
-
-    //Password    //TODO: add the (contains at least one letter and one number) validation
-    if(!password){
-        setpassError('Password is required');
+    }    
+    else if(e.target.value /*&& !exists*/) 
+    {setemailError(''); setErrorCount(0)}
+  }
+  
+  //Password
+  const handlePasswordInput = (e) => {
+  setPassword(e.target.value);
+   if (e.target.value && e.target.value.length < 8) {
+    setpassError('Password should be 8 characters or more');
+  } else if (e.target.value && !hasNumber.test(e.target.value)){
+    setpassError('Password should contain at least 1 number');
+  } else if(e.target.value && !hasLetter.test(e.target.value)){
+    setpassError('Password should contain at least 1 letter');
+  }
+  else if(e.target.value){
+    setpassError('');
+  }
+  else if(!e.target.value){
+    setpassError('Password is required');
+  }
+  }
+  
+  //Confirm Password
+  const handleConfirmPasswordInput = (e) => {
+  setrePassword(e.target.value);   
+  // if(rePassword !== password){
+  //   setrePassError('Passwords do not match'); 
+  // } else{
+  //       setrePassError('');
+  // }
+  if(e.target.value && e.target.value !== password){
+    console.log("enteredd");
+     setrePassError('Passwords do not match'); 
+  } else if(e.target.value){
+         setrePassError('');
+  }
+  else if(!e.target.value){
+    setrePassError('Confirm password is required');
+  }
+  }
+  
+  //Setting roles
+  const handleCustomerButton = (e) => {
+  setRole("customer");
+  console.log(role);
+  }
+  
+  const handleManagerButton = (e) => {
+  setRole("manager");
+  console.log(role);
+  }
+  // ---------------------------------------- VALIDATIONS ---------------------------------------------- //
+  /**
+   * Insures that all input data is valid
+   * This is what provides instant validation on submiiting the form
+   */
+   const validateInfo = () => {
+  
+      //First name
+      if(!firstName) {
+          setfnError('First name is required');
+          setErrorCount(1);
+      } else{setfnError(''); setErrorCount(0)}
+  
+      //Last name
+      if(!lastName) {
+          setlnError('Last name is required');
+          setErrorCount(1);
+      } else{setlnError(''); setErrorCount(0)}
+  
+      //Username
+      if(!userName) {
+          setunError('Username is required');
+          setErrorCount(1);
+      } else{setunError(''); setErrorCount(0)}
+  
+      //Email
+      if(!email){
+          setemailError('Email is required');
+          setErrorCount(1);
+      }
+      else if (!/\S+@\S+\.\S+/.test(email)) {
+          setemailError('Email address is invalid');
+          setErrorCount(1);
+      }
+      else {setemailError(''); setErrorCount(0)}
+  
+      //Password   
+      if(!password){
+          setpassError('Password is required');
+          setErrorCount(1);
+      } else if (password.length < 8) {
+          setpassError('Password should be 8 characters or more');
+          setErrorCount(1);
+      }
+      else if (!hasNumber.test(password)){
+        setpassError('Password should contain at least 1 number');
         setErrorCount(1);
-    } else if (password.length < 8) {
-        setpassError('Password should be 8 characters or more');
+      }
+      else if(!hasLetter.test(password)){
+        setpassError('Password should contain at least 1 letter');
         setErrorCount(1);
-    }
-    else if (!hasNumber.test(password)){
-      console.log("entered");
-      setpassError('Password should contain at least 1 number');
-      setErrorCount(1);
-    }
-      //TODO:: add the "should contain at least 1 letter" validation
-     else {setpassError(''); setErrorCount(0)}
-
-     //Confirm password
-     if(!rePassword){
-         setrePassError('Confirm Password is required');
-     }
-     else if(rePassword !== password){
-       console.log("enteredd");
-        setrePassError('Passwords do not match'); 
-    } else{
-            setrePassError('');
-    }
-} 
+      }
+       else {setpassError(''); setErrorCount(0)}
+  
+       //Confirm password
+       if(!rePassword){
+           setrePassError('Confirm Password is required');
+       }
+       else if(rePassword !== password){
+         console.log("enteredd");
+          setrePassError('Passwords do not match'); 
+      } else{
+              setrePassError('');
+      }
+  } 
+  
 
 // ------------------------------------------ RETURN -------------------------------------------------- //
 return (
