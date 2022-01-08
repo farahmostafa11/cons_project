@@ -62,18 +62,26 @@ const submitForm = () => {
 // ------------------------------------- json server -------------------------------------------//
 
 /**
- * Checks the availability of the email, if it's already in the mockAPI, function will return 'Email unavailable'
+ * Checks the availability of the email & username, if it's already exists, returns unavailable
  * It's considered to be part of the email validation, but it's written in a separate function since it has different logic than other validations 
  * & depends on the server 
  */
- const checkUserInput = () => {
-    axios.get(  apiURL + '?email=' + email)
-    .then(response => {
-      console.log(response.data);
-      if(response.data.length > 0) {
-        setemailError('Email unavailable');
-      }
-  })
+ const checkUserInput = () => { 
+  axios.get(  apiURL + '/' + email) //email validation
+  .then(response => {
+    console.log(response.data);
+    if(response.data.length > 0) {
+      setemailError('Email unavailable');
+    }
+}) 
+  axios.get(  apiURL + '?username=' + userName) //username validation
+  .then(response => {
+    console.log(response.data);
+    if(response.data.length > 0) {
+      setunError('Username unavailable');
+    }
+})
+
 }
 
 /**
