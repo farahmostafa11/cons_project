@@ -45,8 +45,8 @@ const handleSubmit = (e) => {
               password: password};
     userLogin(data)
     .then(response => {
-      console.log(response.data);
-      if(response.data!=undefined) {
+      console.log(response);
+      if(response!==undefined) {
         setIsUser(true);
         setpassError('');
         //TODO: Redirect to home page (on successful login)
@@ -56,7 +56,7 @@ const handleSubmit = (e) => {
         var idss=response.data.data.cutomer._id;
         window.location.href = 'http://localhost:3000/homePage/1/'+idss;
   
-      } else if ( response.data.length === 0 && userName && password) {
+      } else if (  userName && password) {
         setIsUser(false);
         setpassError('Incorrect username or password')
       }
