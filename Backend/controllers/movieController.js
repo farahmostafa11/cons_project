@@ -68,8 +68,8 @@ exports.updateMovie = async (req, res) => {
 function checkDate(datearr)
  {
      let tnow=new Date();
-     let ptime= new Date(new Date(datearr[2], datearr[1], datearr[0]).toDateString());
-     console.log(ptime< tnow);
+     let ptime= new Date(datearr);
+     console.log(ptime, tnow,datearr[0]);
         return ptime < tnow;
 };
 
@@ -95,21 +95,21 @@ exports.addMovie = async (req, res) => {
       
         const posterNew= req.body.poster;
         const titleNew=req.body.movieName;
-        const screeningRoomNew=req.body.screeningroomid;
+        const screeningRoomNew=req.body.id;
         const dateNew=req.body.Date;
         const slideshowNew=req.body.slideShow;
         const starttimeNew=req.body.startTime;
         const endtimeNew=req.body.endTime;
         const dateCheckNew=dateNew.split('-');
-        if (dateCheckNew.length!=3){
+        if (dateCheckNew.length!==3){
             throw new AppError('Must Enter An Appropriate sequence of Date Format Like DD-MM-YYYY', 400);
         }
 
-        if (!checkDate(dateCheckNew))
+        if (!checkDate(dateNew))
         {
             throw new AppError('Must Enter An Date Before Today', 400);
         }
-        if(starttimeNew.length!=endtimeNew.length){
+        if(starttimeNew.length!==endtimeNew.length){
             throw new AppError('StartTime array and EndTime array must have same length ', 400);
         }
 
@@ -117,7 +117,7 @@ exports.addMovie = async (req, res) => {
         let duration=durationCalc(endtimeNew[0],starttimeNew[0]);
         for(let i=0;i<starttimeNew.length;i++){
             console.log(duration);
-            if(endtimeNew[i]<starttimeNew[i] || duration!=durationCalc(endtimeNew[i],starttimeNew[i]) )
+            if(endtimeNew[i]<starttimeNew[i] || duration!==durationCalc(endtimeNew[i],starttimeNew[i]) )
                 {
                     flag=false;
                     break;
@@ -131,15 +131,20 @@ exports.addMovie = async (req, res) => {
         const moviesShownarr=await Room.findById(
             req.body.screeningroomid)
             .select('moviesShown');
-        for(let i=0;i<moviesShownarr.length;i++){
-            const timesarr=await Movie.findById(
-                moviesShownarr[i])
-                .select('startTime endTime');
-                console.log(timesarr.startTime.length);
-            for(let j=0;j<timesarr.startTime.length;j++){
+        let moviesNum=moviesShownarr.moviesShown.length;
+        for(let i=0;i<moviesNum;i++){
+            let starttimesarr=await Movie.findById(
+                moviesShownarr.moviesShown[i])
+                .select('startTime');
+            let endtimesarr=await Movie.findById(
+                    moviesShownarr.moviesShown[i])
+                    .select('endTime');
+                console.log(starttimesarr.startTime.length);
+                console.log(starttimesarr);
+            for(let j=0;j<starttimesarr.startTime.length;j++){
                 for(let k=0;k<starttimeNew.length;k++){
-                    if(starttimeNew[k]>=timesarr.startTime[j] && starttimeNew[k]<timesarr.endTime[j]){
-                        console.log(timesarr.startTime[j]);
+                    if(starttimeNew[k]>=starttimesarr.startTime[j] && starttimeNew[k]<endtimesarr.endTime[j]){
+                        //console.log(starttimesarr.startTime[j]);
                         overlappedFlag=true;
                         break;
                     }
