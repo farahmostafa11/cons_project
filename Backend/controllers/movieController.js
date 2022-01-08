@@ -114,18 +114,30 @@ exports.addMovie = async (req, res) => {
         }
 
         let flag=true;
+        let overlapped=false;
+        let firststart=starttimeNew[0];
         let duration=durationCalc(endtimeNew[0],starttimeNew[0]);
         for(let i=0;i<starttimeNew.length;i++){
-            console.log(duration);
+            //console.log(duration);
+            
             if(endtimeNew[i]<starttimeNew[i] || duration!==durationCalc(endtimeNew[i],starttimeNew[i]) )
                 {
                     flag=false;
                     break;
                 }
             //duration=endtimeNew[i]-starttimeNew[i];
+            if(endtimeNew[i]<firststart)
+            {
+                overlapped=true;
+                    break;
+            }
+            firststart=starttimeNew[i];
         }
         if(!flag){
             throw new AppError('StartTime array and EndTime array Have Not Logical Times ', 400);
+        }
+        if(overlapped){
+            throw new AppError('StartTime array and EndTime array OVERLAPPING!!! ', 400);
         }
         let overlappedFlag=false;
         const moviesShownarr=await Room.findById(
@@ -152,7 +164,7 @@ exports.addMovie = async (req, res) => {
             }
         }
         if(overlappedFlag){
-            throw new AppError('OVERLAPPING TIMES BETWEEN OTHER MOVIES SHOWN IN ROOM ', 400);
+            throw new AppError('OVERLAPPING TIMES BETWEEN OTHER MOVIES SHOWN IN SAME ROOM ', 400);
         }
         const newMovie = await Movie.create({
             screeningRoom:screeningRoomNew,
