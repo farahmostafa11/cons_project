@@ -25,6 +25,7 @@ const roomSchema = new mongoose.Schema({
     }
 });
 
+/*
 roomSchema.pre(/^find/, function(next) {
     this.populate('Movie').populate({
       path: 'moviesShown',
@@ -40,6 +41,7 @@ roomSchema.pre(/^find/, function(next) {
     });
     next();
   });
+  */
 const Room = mongoose.model('Room', roomSchema);
 
 module.exports = Room;

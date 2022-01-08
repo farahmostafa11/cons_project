@@ -36,7 +36,7 @@ const movieSchema = new mongoose.Schema({
         require: [true, 'Must Enter End Time of Showing this movie']
     }
 });
-
+/*
 movieSchema.pre(/^find/, function(next) {
     this.populate('Room').populate({
       path: 'screeningRoom',
@@ -44,12 +44,14 @@ movieSchema.pre(/^find/, function(next) {
     });
     next();
   });
+*/
 
 movieSchema.methods.checkDate = async function (datearr)
  {
 
   return new Date(new Date(datearr[2], datearr[1], datearr[0]).toDateString()) < new Date(new Date().toDateString());
 };
+
 
 const Movie = mongoose.model('Movie', movieSchema);
 

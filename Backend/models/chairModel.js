@@ -27,6 +27,7 @@ const chairSchema = new mongoose.Schema({
 });
 
 chairSchema.index({ roomID: 1, name: 1 }, { unique: true });
+
 /*
 chairSchema.pre(/^find/, function(next) {
     this.populate('Room').populate({
@@ -44,7 +45,7 @@ chairSchema.pre(/^find/, function(next) {
     });
     next();
   });*/
-  
+
 const Chair = mongoose.model('Chair', chairSchema);
 
 module.exports = Chair;

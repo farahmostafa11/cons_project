@@ -1,5 +1,5 @@
 const Chair = require('../models/chairModel');
-const mongoose= require('mongoose');
+const Room = require('../models/roomModel');
 const jwtoken = require('jsonwebtoken');
 
 const respons = (id) =>
@@ -27,19 +27,27 @@ jwtoken.sign({ id }, process.env.JWT_SECRET, {
     });
   };
   
-exports.addChair = async (req, res) => {
+exports.addChair = async (req) => {
     try {
-      const chair = await Chair.create({
-        roomID: req.body.roomid,
-        name: req.body.name
+      const chair2 = await Chair.create({
+        roomID: req.roomID,
+        name: req.name
       });
-      createResponse(chair, 201, res);
-      
+      //createResponse(chair2, 201, res);
+      const updateChairsInRoom= await Room.findByIdAndUpdate(
+        req.roomID, {$addToSet: {chairs: chair2._id}},
+        function (err, docs) {
+    if (err){
+        console.log('INVALID ADDING CHAIRS Array IN Room : ',err)
+    }
+    else{
+        console.log("Updated Chairs in Room : ", docs);
+    }
+    });
+
     } catch (err) {
-      res.status(400).json({
-          status:'fail',
-          message: 'INVALID ADDING CHAIR '+err
-      });
+        console.log('INVALID ADDING CHAIR '+err);
+      
     }
   };
   

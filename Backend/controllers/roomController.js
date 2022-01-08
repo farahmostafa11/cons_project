@@ -1,6 +1,7 @@
 const Room = require('../models/roomModel');
 const AppError = require('./../utils/appError');
 const jwtoken = require('jsonwebtoken');
+const catchAsync = require('./../utils/catchAsync');
 
 const respons = (id) =>
 jwtoken.sign({ id }, process.env.JWT_SECRET, {
@@ -26,6 +27,7 @@ jwtoken.sign({ id }, process.env.JWT_SECRET, {
       }
     });
   };
+  
   
 exports.createRoom = async (req, res) => {
     try {
