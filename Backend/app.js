@@ -8,7 +8,7 @@ const customersRouter = require('./routes/customerRoute.js');
 const movieRouter = require('./routes/movieRoute');
 const roomRouter=require('./routes/roomRoute.js');
 const chairRouter=require('./routes/chairRoute.js');
-
+const reservationRouter=require('./routes/reservationRoute.js');
 const app = express();
 app.use(cors()) // Use this after the variable declaration
 // 1) MIDDLEWARES
@@ -33,8 +33,8 @@ app.use((req, res, next) => {
 app.use('/api/customer', customersRouter);
 app.use('/api/room', roomRouter);
 app.use('/api/movie', movieRouter);
-app.use('/api/chair',chairRouter)
-
+app.use('/api/chair',chairRouter);
+app.use('/api/reservation',reservationRouter);
 //IM
 //Fe controller bynady model
 

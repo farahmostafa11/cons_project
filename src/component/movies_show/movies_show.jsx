@@ -12,6 +12,8 @@ import axios from 'axios'
 export default function MoviesShow(props){
   
   const path = window.location.pathname;
+  const index = path.split('/');
+  var user_id=index[3];
   const [movies, setMovies] = useState([]); 
   const [show, setShow] = useState(false);
   const [user_info, setUserInfo] = useState();
@@ -111,7 +113,7 @@ export default function MoviesShow(props){
   const [isLogedIn, setLogedIn] = useState(false); 
     useEffect(async()=>{
     //console.log("path",path);
-    const index = path.split('/');
+    
     var log_in_check = index[2];
     
     //console.log("is_logged",log_in_check);
@@ -121,7 +123,7 @@ export default function MoviesShow(props){
     }
     else if(log_in_check==="1"){
       //to be used in get user by id
-      var user_id=index[3];
+      
       console.log("USER ID FE EL MOVIEEE",user_id);
       //console.log("yes");
       setLogedIn(true);
@@ -455,7 +457,7 @@ const handlePosterImageUrl = (e) => {
                   <div className="name">
                   {movie.startTime && movie.startTime.map(start=>(
                     <>
-                    <Link style={navStyle} to={`/RoomReservation/${movie.id}/${isLogedIn}`}><p className="bold pink" >Start Time:<span> {start}</span></p></Link>
+                    <Link style={navStyle} to={`/RoomReservation/${movie.screeningRoom}/${isLogedIn}/${start}/${movie._id}/${user_id}`}><p className="bold pink" >Start Time:<span> {start}</span></p></Link>
                     </>
                   ))}
                  

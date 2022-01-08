@@ -45,10 +45,6 @@ exports.addReservation = async (req, res) => {
         const customerNew=req.body.customerid;
         const starttimeNew=req.body.startTime;
         const chairsNew=req.body.chairsid;
-        const dateCheckNew=dateNew.split('-');
-        if (dateCheckNew.length!==3){
-            throw new AppError('Must Enter An Appropriate sequence of Date Format Like DD-MM-YYYY', 400);
-        }
 
         if (!checkDate(dateNew))
         {
@@ -65,7 +61,7 @@ exports.addReservation = async (req, res) => {
         });
 
         const updateResevationInCustomer= await Customer.findByIdAndUpdate(
-            req.body.id, {$addToSet: {reservtions: newReserv._id}},
+            customerNew, {$addToSet: {reservtions: newReserv._id}},
             function (err, docs) {
         if (err){
             console.log('INVALID ADDING Rservation Array IN Customer : ',err)

@@ -9,6 +9,9 @@ export default function CinemaRoom(props){
     const index = path.split('/');
     var room_id = index[2];
     var loggedIn=index[3];
+    var start_date=index[4];
+    var movie_id=index[5];
+    var user_id=index[6];
     if(room_id==undefined){ 
       room_id='null';
     }
@@ -16,6 +19,9 @@ export default function CinemaRoom(props){
 
   const [isLogedIn, setLogedIn] = useState(0); 
   const [rows, setRows] = useState([]); 
+  const [row1,setRow1]=useState([]);
+  const [row2,setRow2]=useState([]);
+  const [row3,setRow3]=useState([]);
   const [idToreserve,setChairID]=useState();
   const [selectedChairs,setSelectedChairs]=useState([]);
   const [isClicked,setClicked] = useState(false);
@@ -73,7 +79,15 @@ export default function CinemaRoom(props){
   }
   function sendTickets(){
     console.log(selectedChairs);
-    AddReservations(selectedChairs);
+    const ticketInfo={
+      movieid:movie_id,
+      roomid:room_id,
+      startTime:start_date,
+      chairsid:selectedChairs,
+      customerid:user_id,
+      date:"12-01-2022"
+    }
+    AddReservations(ticketInfo);
   }
 
   /*useEffect(async()=>{
@@ -89,17 +103,32 @@ export default function CinemaRoom(props){
     )
   },[isNotEmpty])*/
   useEffect(async()=>{
+    
     if(loggedIn==="true"){
       setLogedIn(1);
     }
     else{
       setLogedIn(0);
     }
-    GetRoomReservations(room_id).then(response=>{
-        setRows(response.data);
-        console.log("mafe4 data");
+    var today = new Date(); 
+    var dd = today.getDate(); 
+    var mm = today.getMonth()+1; 
+    var yyyy = today.getFullYear();
+    var str=""+dd+"-"+mm+"-"+yyyy;
+    const room_info={
+      roomid:room_id,
+      starttime:start_date,
+      date:str
+    }
+    GetRoomReservations(room_info).then(response=>{
+        setRows(response.data.data.roomres);
+        console.log(response.data.data.roomres);
+        console.log(rows);
+        setRow1(rows[0]);
+        setRow1(rows[1]);
+        setRow1(rows[2]);
   })
-  },[isNotEmpty])
+  },[rows])
 
 
     return(
@@ -109,13 +138,13 @@ export default function CinemaRoom(props){
 
           </div>
           <ol className="cabin fuselage">
-            {rows && rows.map(row=>(
-            <li className="row" className={row.row_num}>
+            {rows && rows.map((row,index)=>(
+            <li className="row row--2" key={index}>
               <ol className="seats" type="A">
-                {row.chairs && row.chairs.map(chair=>(
-                <li className="seat" >
-                  <input onClick={() =>{ toggleChair(chair.ID,chair.is_reserved)}} type="checkbox" id={chair.ID} disabled={chair.Reserver_ID!==-1?true:false} />
-                  <label className={chair.is_reserved} htmlFor={chair.ID} >{chair.ID}</label>
+                {row && row.map((chair,sindex)=>(
+                <li  key={sindex} className="seat">
+                  <input onClick={() =>{ toggleChair(chair._id,chair.isReserved)}} type="checkbox" id={chair.name} disabled={chair.isReserved!=="empty"?true:false} />
+                  <label className={chair.isReserved} htmlFor={chair.name} >{chair.name}</label>
                 </li>
                 )
                 )}
@@ -128,7 +157,7 @@ export default function CinemaRoom(props){
           </div>
         </div>
         <div className='confirm_reservation'>
-          {isLogedIn&& !isNotEmpty && <Link style={navStyle} to={`/homePage/${isLogedIn}`}><button className='confirmation_button' onClick={sendTickets}>confirm reservation</button></Link>}
+          {isLogedIn&& !isNotEmpty && <Link style={navStyle} to={`/homePage/${isLogedIn}/${user_id}`}><button className='confirmation_button' onClick={sendTickets}>confirm reservation</button></Link>}
         </div>
         </>
     )

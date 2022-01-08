@@ -51,14 +51,15 @@ exports.showRoomChairs = async(req, res) => {
   try {
     const room = await Room.findById(req.body.roomid);
     const showingTime=req.body.starttime;
-    
+  
+    //console.log(req);
     var chairsList=[];
     for(let i=0;i<room.chairs.length;i++)
     {
       
-      let isrerved=await Reservation.find({roomID: req.body.roomid,chairID:room.chairs[i],
+      let isrerved=await Reservation.find({roomID: req.body.roomid,chairsID:room.chairs[i],
         reservationDate:req.body.date,reservationTime:showingTime});
-      
+      console.log(isrerved);
       if (!isrerved.length){
           let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'empty'}});
           chairsList.push(singleChair);
@@ -78,11 +79,13 @@ for (var i = 0; i < chairsList2D.length; i++) {
   }
 }
     createResponse(chairsList2D, 201, res);
-    
+    //console.log(chairsList2D)
   } catch (err) {
     res.status(400).json({
         status:'fail',
         message: 'ERROR DURING SHOWING ROOM CHAIRS'+err
+        
     });
+    console.log("ERROR DURING SHOWING ROOM CHAIRS",err);
   }
 };
