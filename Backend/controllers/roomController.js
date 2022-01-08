@@ -57,8 +57,10 @@ exports.showRoomChairs = async(req, res) => {
     for(let i=0;i<room.chairs.length;i++)
     {
       
-      let isrerved=await Reservation.find({roomID: req.body.roomid,chairsID:room.chairs[i],
-        reservationDate:req.body.date,reservationTime:showingTime});
+      var query = {$and:[{roomID: req.body.roomid},{chairsID:{$elemMatch: {_id: room.chairs[i]}}},
+      {reservationDate:req.body.date},{reservationTime:showingTime}]};
+      
+      let isrerved=await Reservation.find(query);
       console.log(isrerved);
       if (!isrerved.length){
           let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'empty'}});

@@ -4,6 +4,10 @@ import classes from '../Signup/Signup.module.css'
 //import'./bootstrap.css'
 import Carousel from 'react-bootstrap/Carousel'
 import addMovie,{getMovies} from "../../services/homepageServices"
+//getUserReservations
+import {getuserInfo} from "../../services/userServices"
+import {getUserReservations} from "../../services/userServices"
+import {deletereservation} from "../../services/userServices"
 import {Link} from "react-router-dom";
 import { Modal } from 'react-bootstrap'
 import axios from 'axios'
@@ -129,25 +133,26 @@ export default function MoviesShow(props){
       setLogedIn(true);
       let r={};
 
-      
-      fetch('http://localhost:3002/user')
-      .then(
-          res=>{
-          return res.json();
-          }
-          
-      )
+      var this_user={id:user_id}
+      getuserInfo(this_user)
       .then(
           data=>{
             setUserInfo(data);
             //console.log("data",data);
             if (user_info!=undefined){
               setUserRole(user_info.role==="manager");
-              setreservations_array(user_info.reservations);
+              
+              getUserReservations()
+      .then(
+        data=>{
+          setreservations_array(data);
+        }
+      )
             }
             //console.log("Done")
       }
       )
+      
     }
     else{
       setLogedIn(false);
@@ -170,7 +175,8 @@ export default function MoviesShow(props){
     },[user_info])
     //if user want to cancle reservation
     function handleCancelation(){
-      alert("your reservation is cancled successfully")
+      const user_object={id:user_id}
+      deletereservation(user_object);
     }
     const room1= '61d8552a04ce814d3cad487a';//30
     const room2= '61d85604e50dc24ad4ff3a5f';//20
@@ -415,8 +421,10 @@ const handlePosterImageUrl = (e) => {
                               <Link style={navStyle} to="/"><li className="  bold"> Log In </li></Link>
                               </>
                               }
-                              {reservations_array.length!==0 &&
-                              <li><button className='cancel_reservation' onClick={handleCancelation}>cancel reservation</button></li>}
+                              {reservations_array!==0 &&
+                              <li><button className='cancel_reservation' onClick={handleCancelation}>cancel reservation</button></li>
+                              //length reservation
+                              }
                           </ul>
                           
                           </nav>

@@ -49,3 +49,76 @@ export  async function userLogin(data){
         console.log(error);
     }
 };
+
+export  async function getuserInfo(data){
+    try{
+        
+        console.log("dataa",data);
+        const response = await axios.post(apiURL+'/customer/getUserInfo' , data);
+        console.log("response",response);
+        //Success
+        
+        return(response)
+    } catch (error){
+        if (error.response){
+        console.log("no");
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        } else if (error.request){
+        console.log(error.request);
+        } else {
+        console.log('Error', error.message);
+        }
+        console.log(error);
+    }
+};
+
+//deleteReservations
+
+export  async function deletereservation(data){
+    try{
+        alert("your reservation is cancled successfully")
+        console.log("dataa",data);
+        const response = await axios.delete(apiURL+'/customer/deleteReservations' , data);
+        console.log("response",response);
+        //Success
+        
+        return(response)
+    } catch (error){
+        if (error.response){
+        console.log("no");
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        } else if (error.request){
+        console.log(error.request);
+        } else {
+        console.log('Error', error.message);
+        }
+        console.log(error);
+    }
+};
+
+export  async function getUserReservations(data){
+    try{
+        console.log("dataa",data);
+        const response = await axios.post(apiURL+'/customer/deleteReservations' , data);
+        console.log("response",response);
+        //Success
+        
+        return(response)
+    } catch (error){
+        if (error.response){
+        console.log("no");
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        } else if (error.request){
+        console.log(error.request);
+        } else {
+        console.log('Error', error.message);
+        }
+        console.log(error);
+    }
+};

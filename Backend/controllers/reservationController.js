@@ -41,12 +41,12 @@ exports.addReservation = async (req, res) => {
     try {
         const titleNew=req.body.movieid;
         const screeningRoomNew=req.body.roomid;
-        const dateNew=new Date(req.body.date);
+        const dateNew=req.body.date;
         const customerNew=req.body.customerid;
         const starttimeNew=req.body.startTime;
         const chairsNew=req.body.chairsid;
-
-        if (!checkDate(dateNew))
+        const dateNew2=new Date(req.body.date);
+        if (!checkDate(dateNew2))
         {
             throw new AppError('Must Enter An Date After Now', 400);
         }

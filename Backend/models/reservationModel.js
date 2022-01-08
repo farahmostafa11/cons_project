@@ -27,7 +27,7 @@ const reservationSchema = new mongoose.Schema({
         default: Date.now()
     },
     reservationDate:{
-        type: Date,
+        type: String,
         required: [true,'Must Enter The Reservation Date ']
     },
     reservationTime:{

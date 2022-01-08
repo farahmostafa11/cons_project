@@ -129,3 +129,15 @@ exports.deleteReservations=async (req,res) => {
       res.status(500).send({message: 'Error During Deleting all reservation for this USER'});
   }
 };
+
+exports.getUserInfo= async(req,res)=> {
+  try {
+      const customer3 = await Customer.findById(req.body.id);
+      if(!customer3)
+        throw new AppError('Invalid ID ', 401);
+        createResponse(customer3, 202, res);
+  } catch(err) {
+      console.log(err);
+      res.status(500).send({message: 'CANNOT GET INFORMATION FOR THIS USER'});
+  }
+};
