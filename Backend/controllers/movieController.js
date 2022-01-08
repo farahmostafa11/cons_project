@@ -115,7 +115,7 @@ exports.addMovie = async (req, res) => {
 
         let flag=true;
         let overlapped=false;
-        let firststart=starttimeNew[0];
+        let firstend=endtimeNew[0];
         let duration=durationCalc(endtimeNew[0],starttimeNew[0]);
         for(let i=0;i<starttimeNew.length;i++){
             //console.log(duration);
@@ -126,13 +126,18 @@ exports.addMovie = async (req, res) => {
                     break;
                 }
             //duration=endtimeNew[i]-starttimeNew[i];
-            if(endtimeNew[i]<firststart)
+            if(starttimeNew[i]>firstend)
             {
                 overlapped=true;
                     break;
             }
-            firststart=starttimeNew[i];
+            firstend=endtimeNew[i];
         }
+        
+        if(starttimeNew[starttimeNew.length-1]<firstend)
+            {
+                overlapped=true;
+            }
         if(!flag){
             throw new AppError('StartTime array and EndTime array Have Not Logical Times ', 400);
         }
