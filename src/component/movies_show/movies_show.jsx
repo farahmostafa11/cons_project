@@ -3,6 +3,7 @@ import './movies_show.scss';
 import classes from '../Signup/Signup.module.css'
 //import'./bootstrap.css'
 import Carousel from 'react-bootstrap/Carousel'
+import addMovie,{getMovies} from "../../services/homepageServices"
 import {Link} from "react-router-dom";
 import { Modal } from 'react-bootstrap'
 import axios from 'axios'
@@ -99,15 +100,15 @@ export default function MoviesShow(props){
       //console.log("else");
     }
     //console.log("is looooged",isLogedIn);
-    
 
-    fetch('http://localhost:3002/movies')
-    .then(
+    //fetch('http://localhost:3002/movies')
+    /*.then(
         res=>{return res.json()}
-    )
+    )*/ 
+    getMovies()
     .then(
-        data=>{//console.log(data);
-        setMovies(data);
+        data=>{console.log(data.data);
+        setMovies(data.data);
     }
     )
     
@@ -276,7 +277,8 @@ const handlePosterImageUrl = (e) => {
       validateInfo();
       if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
         let path = '/SignupSuccess';
-        const apiURL = 'http://localhost:3002/movie/addMovie';
+        //const apiURL = 'http://localhost:3002/movie/addMovie';
+        console.log("adding Movie")
         const requestJson={
           poster:posterImageUrl,
             movieName:movieName,
@@ -294,9 +296,9 @@ const handlePosterImageUrl = (e) => {
                 endTime3
             ]
         };
-        axios.post(  apiURL,requestJson  )
+        addMovie(requestJson)
     .then(response => {
-      console.log(response.message);   
+      console.log(response);   
   });
         handleClose();
         e.target.reset();
@@ -383,7 +385,7 @@ const handlePosterImageUrl = (e) => {
                 <Carousel.Item   key={movie.id} >
                   <img
                     className="d-block pad center"
-                    src={movie.slideShow}
+                    src={movie.slideshow}
                     alt="First slide"
                   />
                 </Carousel.Item>
@@ -424,8 +426,8 @@ const handlePosterImageUrl = (e) => {
                 
             </div>
             <div className='movie_details text-white center'>
-                <h6 className="bold">{movie.movieName}</h6>
-                <p bold>Date:<span> {movie.Date}</span></p>
+                <h6 className="bold">{movie.title}</h6>
+                <p bold>Date:<span> {movie.date}</span></p>
                 
               
             </div>

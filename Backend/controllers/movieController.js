@@ -38,7 +38,7 @@ const createResponse = (movieres, statusCode, res) => {
  */
 exports.getAllMovies = async (req, res) => {
     try {
-        const movies = await Movie.find();
+        const movies = await Movie.find({}, );
         res.send(movies);
     } catch(err) {
         console.log(err);
