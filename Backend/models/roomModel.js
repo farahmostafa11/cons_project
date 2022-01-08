@@ -8,6 +8,7 @@ const roomSchema = new mongoose.Schema({
     chairs:{
         type: [{ type : mongoose.Schema.ObjectId, ref: 'Chair' }]
     },
+    
     name: {
         type: String,
         enum: ['Room1','Room2'],

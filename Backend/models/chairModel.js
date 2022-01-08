@@ -12,8 +12,9 @@ const chairSchema = new mongoose.Schema({
         ref: 'Customer'
     },
     isReserved: {
-        type: Boolean,
-        default: false
+        type: String,
+        enum:['reserved','empty'],
+        default: 'empty'
     },
     
     name: {
@@ -28,23 +29,6 @@ const chairSchema = new mongoose.Schema({
 
 chairSchema.index({ roomID: 1, name: 1 }, { unique: true });
 
-/*
-chairSchema.pre(/^find/, function(next) {
-    this.populate('Room').populate({
-      path: 'roomID',
-      select: 'name'
-    });
-    next();
-  });
-
-  
-chairSchema.pre(/^find/, function(next) {
-    this.populate('Customer').populate({
-      path: 'customerID',
-      select: 'username'
-    });
-    next();
-  });*/
 
 const Chair = mongoose.model('Chair', chairSchema);
 

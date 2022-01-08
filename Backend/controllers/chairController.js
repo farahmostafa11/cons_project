@@ -7,7 +7,7 @@ jwtoken.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-  const createResponse = (chairres, statusCode, res) => {
+const createResponse = (chairres, statusCode, res) => {
     const response = respons(chairres._id);
     const cookieOptions = {
       expires: new Date(

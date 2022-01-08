@@ -1,10 +1,9 @@
 const _ = require('underscore');
 const Customer = require('./../models/customerModel.js');
-const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-const APIFeatures = require('../utils/APIFeatures.js');
 const jwtoken = require('jsonwebtoken');
-const crypto = require('crypto');
+const Reservation = require('./../models/reservationModel.js');
+
 
 const respons = (id) =>
 jwtoken.sign({ id }, process.env.JWT_SECRET, {
@@ -90,3 +89,43 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.getReservations=async (req,res) => {
+  try {
+      const reservationsArr = await Customer.findById(req.body.id)
+        .select('reservtions');
+      if(reservationsArr.reservtions.length!==0)
+        res.send(true);//if there are reservations send true, false otherwise
+      else
+      res.send(false);
+  } catch(err) {
+      console.log(err);
+      res.status(500).send({message: 'CANNOT GET RESERVATIONS FOR THIS USER'});
+  }
+};
+
+exports.deleteReservations=async (req,res) => {
+  try {
+      const customer1 = await Customer.findById(req.body.id);
+      if(customer1.reservtions.length!==0)
+        throw new AppError('No RESERVATIONS TO DELETE', 401);
+      for(let i=0;i< customer1.reservtions.length;i++)
+      {
+        Reservation.findByIdAndDelete(customer1.reservtions[i],
+          function (err, reservaton) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted Reservation : ", reservaton);
+            }
+        });
+        
+      }
+      customer1.reservtions=[];
+      customer1.save();
+      createResponse(customer1, 202, res);
+  } catch(err) {
+      console.log(err);
+      res.status(500).send({message: 'Error During Deleting all reservation for this USER'});
+  }
+};

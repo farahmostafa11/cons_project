@@ -1,4 +1,6 @@
 const Room = require('../models/roomModel');
+const Reservation = require('../models/reservationModel');
+const Chair = require('../models/chairModel');
 const AppError = require('./../utils/appError');
 const jwtoken = require('jsonwebtoken');
 const catchAsync = require('./../utils/catchAsync');
@@ -45,4 +47,42 @@ exports.createRoom = async (req, res) => {
     }
   };
   
-  
+exports.showRoomChairs = async(req, res) => {
+  try {
+    const room = await Room.findById(req.body.roomid);
+    const showingTime=req.body.starttime;
+    
+    var chairsList=[];
+    for(let i=0;i<room.chairs.length;i++)
+    {
+      
+      let isrerved=await Reservation.find({roomID: req.body.roomid,chairID:room.chairs[i],
+        reservationDate:req.body.date,reservationTime:showingTime});
+      
+      if (!isrerved.length){
+          let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'empty'}});
+          chairsList.push(singleChair);
+        }
+      else{
+        let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'reserved'}});
+        chairsList.push(singleChair);
+      }
+
+    }
+    var chairsList2D = new Array(room.numberOfRowSeats);
+for (var i = 0; i < chairsList2D.length; i++) {
+  chairsList2D[i] = new Array(room.numberOfColumnSeats);
+
+  for(var j=0;j<room.numberOfColumnSeats;j++){
+      chairsList2D[i][j]=chairsList[i*10+j];
+  }
+}
+    createResponse(chairsList2D, 201, res);
+    
+  } catch (err) {
+    res.status(400).json({
+        status:'fail',
+        message: 'ERROR DURING SHOWING ROOM CHAIRS'+err
+    });
+  }
+};
