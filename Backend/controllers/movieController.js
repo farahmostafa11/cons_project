@@ -129,7 +129,7 @@ exports.addMovie = async (req, res) => {
         }
         let overlappedFlag=false;
         const moviesShownarr=await Room.findById(
-            req.body.screeningroomid)
+            req.body.id)
             .select('moviesShown');
         let moviesNum=moviesShownarr.moviesShown.length;
         for(let i=0;i<moviesNum;i++){
@@ -164,7 +164,7 @@ exports.addMovie = async (req, res) => {
             endTime:endtimeNew
         });
         const updateMovieInRoom= await Room.findByIdAndUpdate(
-            req.body.screeningroomid, {$addToSet: {moviesShown: newMovie._id}},
+            req.body.id, {$addToSet: {moviesShown: newMovie._id}},
             function (err, docs) {
         if (err){
             console.log('INVALID ADDING Movies Array IN Room : ',err)
