@@ -27,7 +27,7 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [rePassword, setrePassword] = useState('');
 const [role, setRole] = useState('customer'); //role is set to Customer by default
-const [exists, setExists] = useState(false);
+// const [exists, setExists] = useState(false);
 
 const [fnError, setfnError] = useState();
 const [lnError, setlnError] = useState();
