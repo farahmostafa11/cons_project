@@ -85,7 +85,7 @@ export default function CinemaRoom(props){
       startTime:start_date,
       chairsid:selectedChairs,
       customerid:user_id,
-      date:"12-01-2022"
+      date:"10-01-2022"
     }
     AddReservations(ticketInfo);
   }
@@ -118,7 +118,7 @@ export default function CinemaRoom(props){
     const room_info={
       roomid:room_id,
       starttime:start_date,
-      date:str
+      date:"10-01-2022"
     }
     GetRoomReservations(room_info).then(response=>{
         setRows(response.data.data.roomres);

@@ -21,7 +21,7 @@ export default function MoviesShow(props){
   const [movies, setMovies] = useState([]); 
   const [show, setShow] = useState(false);
   const [user_info, setUserInfo] = useState();
-  const [reservations_array, setreservations_array] = useState([]);
+  const [reservations_array, setreservations_array] = useState();
   const [user_role, setUserRole] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const handleShow = () => setShow(true);
@@ -53,7 +53,7 @@ export default function MoviesShow(props){
   {
         axios.get(  'http://localhost:3002/movies' + '?id=' + id)
     .then(response => {
-      //console.log(response.data[0].poster);
+      ////console.log(response.data[0].poster);
       setPosterImageUrl(response.data[0].poster);
       setMoviename(response.data[0].movieName);
       setDate(response.data[0].Date);
@@ -97,15 +97,18 @@ export default function MoviesShow(props){
   function setrole(role){
     if (role==="manager"){
       setUserRole(true);
+      console.log("is a manager");
     }
     else{
       setUserRole(false);
+      console.log(user_role);
+      console.log("is a customer");
     }
   }
  function room1fn(){
   roomNo=room1;
-  console.log("here");
-  console.log(room1);
+  //console.log("here");
+  //console.log(room1);
  }
  function room2fn(){
   roomNo=room2;
@@ -116,49 +119,51 @@ export default function MoviesShow(props){
   };
   const [isLogedIn, setLogedIn] = useState(false); 
     useEffect(async()=>{
-    //console.log("path",path);
+    ////console.log("path",path);
     
     var log_in_check = index[2];
     
-    //console.log("is_logged",log_in_check);
+    ////console.log("is_logged",log_in_check);
     if(log_in_check==undefined){ 
       setLogedIn(false);
-      //console.log("und");
+      ////console.log("und");
     }
     else if(log_in_check==="1"){
       //to be used in get user by id
       
-      console.log("USER ID FE EL MOVIEEE",user_id);
-      //console.log("yes");
+      //console.log("USER ID FE EL MOVIEEE",user_id);
+      ////console.log("yes");
       setLogedIn(true);
-      let r={};
-
-      var this_user={id:user_id}
+      console.log("userrrr",user_id);
+      const this_user={"id":user_id};
+      console.log("userrrr22222",this_user);
       getuserInfo(this_user)
       .then(
           data=>{
-            setUserInfo(data);
-            //console.log("data",data);
+            setUserInfo(data.data.data.cutomer);
+            console.log("dataaaaaaa of userrr",data.data.data.cutomer);
             if (user_info!=undefined){
-              setUserRole(user_info.role==="manager");
-              
-              getUserReservations()
+              setrole(user_info.role);
+              if(user_info.role==="customer"){
+                console.log("ROLEE",user_info.role)
+              }
+             
+            }
+            ////console.log("Done")
+      }
+      )
+      getUserReservations(this_user)
       .then(
         data=>{
           setreservations_array(data);
         }
       )
-            }
-            //console.log("Done")
-      }
-      )
-      
     }
     else{
       setLogedIn(false);
-      //console.log("else");
+      ////console.log("else");
     }
-    //console.log("is looooged",isLogedIn);
+    ////console.log("is looooged",isLogedIn);
 
     //fetch('http://localhost:3002/movies')
     /*.then(
@@ -166,7 +171,7 @@ export default function MoviesShow(props){
     )*/ 
     getMovies()
     .then(
-        data=>{console.log(data.data);
+        data=>{//console.log(data.data);
         setMovies(data.data);
     }
     )
@@ -264,7 +269,7 @@ const handlePosterImageUrl = (e) => {
 
     //poster
     if(!posterImageUrl) {
-        console.log("fady");
+        //console.log("fady");
         setfnError('Poster Image Url is required');
         fnError='Poster Image Url is required';
         setErrorCount(1);
@@ -350,7 +355,7 @@ const handlePosterImageUrl = (e) => {
       if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
         let path = '/SignupSuccess';
         //const apiURL = 'http://localhost:3002/movie/addMovie';
-        console.log("adding Movie")
+        //console.log("adding Movie")
         const requestJson={
           poster:posterImageUrl,
             movieName:movieName,
@@ -370,7 +375,7 @@ const handlePosterImageUrl = (e) => {
         };
         addMovie(requestJson)
     .then(response => {
-      console.log(response);   
+      //console.log(response);   
   });
         handleClose();
         e.target.reset();
@@ -409,19 +414,19 @@ const handlePosterImageUrl = (e) => {
                           <nav className="nav-bar text-left hi ">
                           <ul className="text-white">
                               {user_info&&
-                              <li className='userName bold'><p> Welcome, {user_info.firstname}  </p></li>}
+                              <li className='userName bold'><p> Welcome, {user_info.firstName}  </p></li>}
                               <li><a href="#home" className=" bold"> Home </a></li>
                               <li><a href="#movies" className=" bold"> Movies </a></li>
-                              {/* {isLogedIn && user_role && */}
+                              {isLogedIn && user_role && 
                               <li><a href="#addMovie" onClick={handleShow} className="  bold" > addMovie </a></li>
-                              {/* } */}
+                              }
                               {!isLogedIn &&
                               <>
                               <Link style={navStyle} to="/Signup"><li className=" bold">Sign Up</li></Link>
                               <Link style={navStyle} to="/"><li className="  bold"> Log In </li></Link>
                               </>
                               }
-                              {reservations_array!==0 &&
+                              {reservations_array &&
                               <li><button className='cancel_reservation' onClick={handleCancelation}>cancel reservation</button></li>
                               //length reservation
                               }

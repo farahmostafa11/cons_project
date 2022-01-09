@@ -47,47 +47,59 @@ exports.createRoom = async (req, res) => {
     }
   };
   
-exports.showRoomChairs = async(req, res) => {
-  try {
-    const room = await Room.findById(req.body.roomid);
-    const showingTime=req.body.starttime;
-  
-    //console.log(req);
-    var chairsList=[];
-    for(let i=0;i<room.chairs.length;i++)
-    {
-      
-      var query = {$and:[{roomID: req.body.roomid},{chairsID:{$elemMatch: {_id: room.chairs[i]}}},
-      {reservationDate:req.body.date},{reservationTime:showingTime}]};
-      
-      let isrerved=await Reservation.find(query);
-      console.log(isrerved);
-      if (!isrerved.length){
-          let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'empty'}});
-          chairsList.push(singleChair);
+  exports.showRoomChairs = async(req, res) => {
+    try {
+      const room = await Room.findById(req.body.roomid);
+      const showingTime=req.body.starttime;
+    
+      //console.log(req);
+      var chairsList=[];
+      for(let i=0;i<room.chairs.length;i++)
+      {
+        var query = {roomID: req.body.roomid,chairsID:{$in:  room.chairs[i]},
+        reservationDate:req.body.date,reservationTime:showingTime};
+        
+        let isrerved=await Reservation.find(query,function(err) 
+        {
+           if (err)
+           {
+               res.send(err);
+           }
+           
+       
+        });
+        //console.log(isrerved);
+        let singleChair= await Chair.findById(room.chairs[i],
+            function (err, ) {
+        if (err){
+            console.log('INVALID Pushing Data to Chair : ',err);
+        }});
+        if (!isrerved.length){
+            singleChair.isReserved='empty';
+            
+          }
+        else{
+          singleChair.isReserved='reserved';
         }
-      else{
-        let singleChair= await Chair.findByIdAndUpdate(room.chairs[i],{$set: {isReserved:'reserved'}});
         chairsList.push(singleChair);
       }
-
+      var chairsList2D = new Array(room.numberOfRowSeats);
+  for (var i = 0; i < chairsList2D.length; i++) {
+    chairsList2D[i] = new Array(room.numberOfColumnSeats);
+  
+    for(var j=0;j<room.numberOfColumnSeats;j++){
+        chairsList2D[i][j]=chairsList[i*10+j];
     }
-    var chairsList2D = new Array(room.numberOfRowSeats);
-for (var i = 0; i < chairsList2D.length; i++) {
-  chairsList2D[i] = new Array(room.numberOfColumnSeats);
-
-  for(var j=0;j<room.numberOfColumnSeats;j++){
-      chairsList2D[i][j]=chairsList[i*10+j];
   }
-}
-    createResponse(chairsList2D, 201, res);
-    //console.log(chairsList2D)
-  } catch (err) {
-    res.status(400).json({
-        status:'fail',
-        message: 'ERROR DURING SHOWING ROOM CHAIRS'+err
-        
-    });
-    console.log("ERROR DURING SHOWING ROOM CHAIRS",err);
-  }
-};
+  
+      createResponse(chairsList2D, 201, res);
+      console.log(chairsList2D);
+    } catch (err) {
+      res.status(400).json({
+          status:'fail',
+          message: 'ERROR DURING SHOWING ROOM CHAIRS'+err
+          
+      });
+      console.log("ERROR DURING SHOWING ROOM CHAIRS",err);
+    }
+  };
