@@ -94,12 +94,12 @@ export default function MoviesShow(props){
   function setrole(role){
     if (role==="manager"){
       setUserRole(true);
-      console.log("is a manager");
+      //console.log("is a manager");
     }
     else{
       setUserRole(false);
-      console.log(user_role);
-      console.log("is a customer");
+      //console.log(user_role);
+      //console.log("is a customer");
     }
   }
  function room1fn(){
@@ -129,19 +129,19 @@ export default function MoviesShow(props){
       //console.log("USER ID FE EL MOVIEEE",user_id);
       ////console.log("yes");
       setLogedIn(true);
-      console.log("userrrr",user_id);
+      //console.log("userrrr",user_id);
       const this_user={"id":user_id};
-      console.log("userrrr22222",this_user);
+      //console.log("userrrr22222",this_user);
       getuserInfo(this_user)
       .then(
           data=>{
-            console.log("dataaaaaaa of userrr",data);
+            //console.log("dataaaaaaa of userrr",data);
             setUserInfo(data.data);
             
             if (user_info!=undefined){
               setrole(user_info.role);
               if(user_info.role==="customer"){
-                console.log("ROLEE",user_info.role)
+                //console.log("ROLEE",user_info.role)
               }
              
             }
@@ -151,7 +151,7 @@ export default function MoviesShow(props){
       getUserReservations(this_user)
       .then(
         data=>{
-          console.log("fereservation?",data.data);
+          //console.log("fereservation?",data.data);
           setreservations_array(data.data);
         }
       )
