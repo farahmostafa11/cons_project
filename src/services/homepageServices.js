@@ -47,5 +47,27 @@ export async function getMovies(){
         console.log(error);
     }
 };
+//updateMovie
 
-
+export async function updateMovie(data){
+    try{
+        //console.log("moviee infoo",movieInfo);
+        const response = await axios.post(apiURL+'/updateMovie',data);
+        console.log("response",response);
+        //Success
+        
+        return(response)
+    } catch (error){
+        if (error.response){
+        console.log("no");
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        } else if (error.request){
+        console.log(error.request);
+        } else {
+        console.log('Error', error.message);
+        }
+        console.log(error);
+    }
+};

@@ -4,7 +4,8 @@ import classes from '../Signup/Signup.module.css'
 //import'./bootstrap.css'
 import Carousel from 'react-bootstrap/Carousel'
 import addMovie,{getMovies} from "../../services/homepageServices"
-//getUserReservations
+import {updateMovie} from "../../services/homepageServices"
+//updateMovie
 import {getuserInfo} from "../../services/userServices"
 import {getUserReservations} from "../../services/userServices"
 import {deletereservation} from "../../services/userServices"
@@ -21,7 +22,7 @@ export default function MoviesShow(props){
   const [movies, setMovies] = useState([]); 
   const [show, setShow] = useState(false);
   const [user_info, setUserInfo] = useState();
-  const [reservations_array, setreservations_array] = useState();
+  const [reservations_array, setreservations_array] = useState(false);
   const [user_role, setUserRole] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
   const handleShow = () => setShow(true);
@@ -53,7 +54,6 @@ export default function MoviesShow(props){
   {
         axios.get(  'http://localhost:3002/movies' + '?id=' + id)
     .then(response => {
-      ////console.log(response.data[0].poster);
       setPosterImageUrl(response.data[0].poster);
       setMoviename(response.data[0].movieName);
       setDate(response.data[0].Date);
@@ -64,9 +64,6 @@ export default function MoviesShow(props){
       setEndTime1(response.data[0].endTime[0])
       setEndTime2(response.data[0].endTime[1])
       setEndTime3(response.data[0].endTime[2])
-      // if(response.data.length > 0) {
-      //   setemailError('Email unavailable');
-      // }
   })
     setShowUpdate(true);
   } 
@@ -107,8 +104,6 @@ export default function MoviesShow(props){
   }
  function room1fn(){
   roomNo=room1;
-  //console.log("here");
-  //console.log(room1);
  }
  function room2fn(){
   roomNo=room2;
@@ -140,8 +135,9 @@ export default function MoviesShow(props){
       getuserInfo(this_user)
       .then(
           data=>{
-            setUserInfo(data.data.data.cutomer);
-            console.log("dataaaaaaa of userrr",data.data.data.cutomer);
+            console.log("dataaaaaaa of userrr",data);
+            setUserInfo(data.data);
+            
             if (user_info!=undefined){
               setrole(user_info.role);
               if(user_info.role==="customer"){
@@ -155,7 +151,8 @@ export default function MoviesShow(props){
       getUserReservations(this_user)
       .then(
         data=>{
-          setreservations_array(data);
+          console.log("fereservation?",data.data);
+          setreservations_array(data.data);
         }
       )
     }
@@ -354,8 +351,6 @@ const handlePosterImageUrl = (e) => {
       validateInfo();
       if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
         let path = '/SignupSuccess';
-        //const apiURL = 'http://localhost:3002/movie/addMovie';
-        //console.log("adding Movie")
         const requestJson={
           poster:posterImageUrl,
             movieName:movieName,
@@ -390,13 +385,8 @@ const handlePosterImageUrl = (e) => {
         // e.preventDefault();
         validateInfo();
         if(emailError===''  && fnError==='' && lnError==='' && unError==='' && start1Error==='' && start2Error==='' && start3Error==='' && end1Error==='' && end2Error==='' && end3Error==='') {
-        let path = '/SignupSuccess';
+          //updateMovie()
         handleCloseUpdate();
-        // e.target.reset();
-   
-
-
-        // navigate(path);
       }
     }
     return(
@@ -473,16 +463,16 @@ const handlePosterImageUrl = (e) => {
                     <Link style={navStyle} to={`/RoomReservation/${movie.screeningRoom}/${isLogedIn}/${start}/${movie._id}/${user_id}`}><p className="bold pink" >Start Time:<span> {start}</span></p></Link>
                     </>
                   ))}
-                 
                 </div>
+                {isLogedIn && user_role  &&
                 <div className="update">
-                 <a href="#editMovie" >
-                   {/* <button className="pink">Edit</button> */}
+                <a href="#editMovie" >
+                  {/* <button className="pink">Edit</button> */}
                   <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill pink2" viewBox="0 0 16 16"onClick={()=>handleShowUpdate(movie.id)}>
-  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+ <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
 </svg>
 
-						</a></div>
+           </a></div>}
                 </div>
                 
             </div>

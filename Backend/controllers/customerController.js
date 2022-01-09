@@ -93,7 +93,7 @@ exports.getReservations=async (req,res) => {
   try {
       const reservationsArr = await Customer.findById(req.body.id)
         .select('reservtions');
-        if(reservationsArr.reservtions.length!==0)
+      if(reservationsArr.reservtions.length!==0)
         res.send(true);//if there are reservations send true, false otherwise
       else
       res.send(false);
@@ -103,10 +103,23 @@ exports.getReservations=async (req,res) => {
   }
 };
 
+exports.getUserInfo= async(req,res)=> {
+  try {
+      const customer3 = await Customer.findById(req.body.id).select('firstName lastName username role');
+      if(!customer3)
+        throw new AppError('Invalid ID ', 401);
+        res.send(customer3);
+  } catch(err) {
+      console.log(err);
+      res.status(500).send({message: 'CANNOT GET INFORMATION FOR THIS USER'});
+  }
+};
+
 exports.deleteReservations=async (req,res) => {
   try {
-      const customer1 = await Customer.findById(req.body.id);
-      if(!customer1.reservtions)
+      const customer1 = await Customer.findById(req.body.id,{'reservtions':1});
+      //console.log(customer1);
+      if(customer1.reservtions.length==0)
         throw new AppError('No RESERVATIONS TO DELETE', 401);
       for(let i=0;i< customer1.reservtions.length;i++)
       {
@@ -123,21 +136,9 @@ exports.deleteReservations=async (req,res) => {
       }
       customer1.reservtions=[];
       customer1.save();
-      createResponse(customer1, 202, res);
+      res.send(customer1);
   } catch(err) {
       console.log(err);
       res.status(500).send({message: 'Error During Deleting all reservation for this USER'});
-  }
-};
-
-exports.getUserInfo= async(req,res)=> {
-  try {
-      const customer3 = await Customer.findById(req.body.id);
-      if(!customer3)
-        throw new AppError('Invalid ID ', 401);
-        createResponse(customer3, 202, res);
-  } catch(err) {
-      console.log(err);
-      res.status(500).send({message: 'CANNOT GET INFORMATION FOR THIS USER'});
   }
 };

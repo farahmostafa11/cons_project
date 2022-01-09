@@ -11,6 +11,11 @@ const chairRouter=require('./routes/chairRoute.js');
 const reservationRouter=require('./routes/reservationRoute.js');
 const app = express();
 app.use(cors()) // Use this after the variable declaration
+app.use(
+  express.urlencoded({ extended: true })
+);
+  
+app.use(express.json());
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

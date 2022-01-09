@@ -53,12 +53,94 @@ exports.getAllMovies = async (req, res) => {
  * @param  req 
  * @param  res 
  */
-exports.updateMovie = async (req, res) => {
+ exports.updateMovie = async (req, res) => {
     const {title, date, startTime, endTime, screeningRoom, poster} = req.body;
 
     try {
-        await Movie.findOneAndUpdate({title}, {title, date, startTime, endTime, screeningRoom, poster});
+
+        const dateNew=req.body.Date;
+        const starttimeNew=req.body.startTime;
+        const endtimeNew=req.body.endTime;
+        const dateCheckNew=dateNew.split('-');
+        
+        if (dateCheckNew.length!==3){
+            throw new AppError('Must Enter An Appropriate sequence of Date Format Like DD-MM-YYYY', 400);
+        }
+
+        if (!checkDate(dateNew))
+        {
+            throw new AppError('Must Enter An Date Before Today', 400);
+        }
+        if(starttimeNew.length!==endtimeNew.length){
+            throw new AppError('StartTime array and EndTime array must have same length ', 400);
+        }
+
+        let flag=true;
+        let overlapped=false;
+        let firstend=endtimeNew[0];
+        let duration=durationCalc(endtimeNew[0],starttimeNew[0]);
+        for(let i=0;i<starttimeNew.length;i++){
+            //console.log(duration);
+            
+            if(endtimeNew[i]<starttimeNew[i] || duration!==durationCalc(endtimeNew[i],starttimeNew[i]) )
+                {
+                    flag=false;
+                    break;
+                }
+            //duration=endtimeNew[i]-starttimeNew[i];
+            if(starttimeNew[i]>firstend)
+            {
+                overlapped=true;
+                    break;
+            }
+            firstend=endtimeNew[i];
+        }
+        
+        if(starttimeNew[starttimeNew.length-1]<firstend)
+            {
+                overlapped=true;
+            }
+        if(!flag){
+            throw new AppError('StartTime array and EndTime array Have Not Logical Times ', 400);
+        }
+        if(overlapped){
+            throw new AppError('StartTime array and EndTime array OVERLAPPING!!! ', 400);
+        }
+        let overlappedFlag=false;
+        const moviesShownarr=await Room.findById(
+            req.body.id)
+            .select('moviesShown');
+        let moviesNum=moviesShownarr.moviesShown.length;
+        for(let i=0;i<moviesNum;i++){
+            let starttimesarr=await Movie.findById(
+                moviesShownarr.moviesShown[i])
+                .select('startTime');
+            let endtimesarr=await Movie.findById(
+                    moviesShownarr.moviesShown[i])
+                    .select('endTime');
+                console.log(starttimesarr.startTime.length);
+                console.log(starttimesarr);
+            for(let j=0;j<starttimesarr.startTime.length;j++){
+                for(let k=0;k<starttimeNew.length;k++){
+                    if(starttimeNew[k]>=starttimesarr.startTime[j] && starttimeNew[k]<endtimesarr.endTime[j]){
+                        //console.log(starttimesarr.startTime[j]);
+                        overlappedFlag=true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(overlappedFlag){
+            throw new AppError('OVERLAPPING TIMES BETWEEN OTHER MOVIES SHOWN IN SAME ROOM ', 400);
+        }
+
+
+
+        await Movie.findOneAndUpdate({movieName}, {poster, movieName, id, Date, slideShow, startTime, endTime });
+ 
         res.send('successfully updated');
+
+        createResponse(newMovie, 201, res);
     } catch(err) {
         console.log(err);
         res.status(500).send({message: 'uknown error'});
